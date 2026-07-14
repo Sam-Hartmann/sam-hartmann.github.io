@@ -1,0 +1,28 @@
+---
+layout: default
+title: Home
+---
+<div class="home-header">
+  <h1>Stories to help you through parenthood 👣</h1>
+  <p>Honest writing on parenting, CMPA, and more — plus resources in the shop.</p>
+</div>
+
+<!-- Section tabs -->
+<nav class="section-tabs" aria-label="Topics">
+  <a href="{{ '/' | relative_url }}" class="section-tab section-tab--active">For you</a>
+  {% for section in site.sections %}
+  <a href="{{ '/' | append: section.id | relative_url }}" class="section-tab">
+    {{ section.icon }} {{ section.title }}
+  </a>
+  {% endfor %}
+</nav>
+
+<!-- Latest stories feed -->
+<div class="stories-feed">
+  {% for post in site.posts limit: 20 %}
+    {% include story-card.html post=post %}
+  {% endfor %}
+  {% if site.posts.size == 0 %}
+  <p class="no-posts">No stories yet — check back soon!</p>
+  {% endif %}
+</div>

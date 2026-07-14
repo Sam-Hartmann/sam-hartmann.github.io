@@ -1,0 +1,63 @@
+title: "Your Site Title"
+description: "Stories about parenting, CMPA, and more."
+author: "Soren"
+url: "https://soerenbrandt.github.io"
+baseurl: "/hustles-website" # or "" if using a dedicated repo
+
+# --- Google Analytics ---
+# Replace with your GA4 measurement ID (G-XXXXXXXXXX)
+google_analytics: ""
+
+# --- Giscus (comments + reactions, free via GitHub Discussions) ---
+# 1. Go to https://giscus.app and connect your repo
+# 2. Fill in the values it gives you below
+giscus:
+  repo: "soerenbrandt/hustles"
+  repo_id: ""         # from giscus.app
+  category: "Comments"
+  category_id: ""     # from giscus.app
+  mapping: "pathname"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: "bottom"
+  theme: "light"
+  lang: "en"
+
+# --- External shop / social links ---
+links:
+  etsy: "https://www.etsy.com/shop/your-shop"
+  gumroad: "https://your-name.gumroad.com"
+  medium: "https://medium.com/@your-handle"
+
+# --- Sections ---
+# To add a new section: add an entry here AND create a folder with index.html
+sections:
+  - id: parenting
+    title: "Parenting Advice"
+    description: "Practical advice and honest stories about raising kids."
+    icon: "👶"
+  - id: cmpa
+    title: "CMPA"
+    description: "Navigating Cow's Milk Protein Allergy — our journey and yours."
+    icon: "🥛"
+
+# --- Jekyll settings ---
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:year/:month/:day/:title/
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .github

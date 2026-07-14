@@ -1,0 +1,48 @@
+<article class="story-card">
+  <a href="{{ include.post.url | relative_url }}" class="story-card-link">
+    <div class="story-card-body">
+      <div class="story-card-author">
+        <span class="story-card-author-name">{{ include.post.author | default: site.author }}</span>
+        {% for cat in include.post.categories limit: 1 %}
+          {% for section in site.sections %}
+            {% if section.id == cat %}
+              <span class="tag">{{ section.icon }} {{ section.title }}</span>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      <h2 class="story-card-title">{{ include.post.title }}</h2>
+
+      <p class="story-card-excerpt">
+        {{ include.post.excerpt | strip_html | truncate: 140 }}
+      </p>
+
+      <div class="story-card-meta">
+        <time datetime="{{ include.post.date | date_to_xmlschema }}">
+          {{ include.post.date | date: "%b %-d, %Y" }}
+        </time>
+        {% if include.post.read_time %}
+          <span>&middot; {{ include.post.read_time }} min read</span>
+        {% endif %}
+        {% for tag in include.post.tags limit: 2 %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if include.post.image %}
+      <div class="story-card-image">
+        <img src="{{ include.post.image | relative_url }}" alt="{{ include.post.title }}" loading="lazy">
+      </div>
+    {% endif %}
+  </a>
+</article>
+
+<script
+  type="application/json"
+  class="search-data"
+  data-url="{{ include.post.url | relative_url }}"
+  data-title="{{ include.post.title | escape }}"
+  data-excerpt="{{ include.post.excerpt | strip_html | truncate: 200 | escape }}">
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  {% include header.html %}
+
+  <div class="site-body">
+
+    <!-- Left sidebar: sections + shop links -->
+    <aside class="sidebar" aria-label="Sections">
+      <nav>
+        <p class="sidebar-heading">Topics</p>
+        <ul class="sidebar-sections">
+          {% for section in site.sections %}
+          <li>
+            <a href="{{ '/' | append: section.id | relative_url }}"
+               class="sidebar-link{% if page.url contains section.id %} sidebar-link--active{% endif %}">
+              <span class="sidebar-icon">{{ section.icon }}</span>
+              {{ section.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% if site.links.etsy != "" or site.links.gumroad != "" %}
+        <p class="sidebar-heading sidebar-heading--mt">Shop</p>
+        <ul class="sidebar-sections">
+          {% if site.links.etsy and site.links.etsy != "" %}
+          <li><a href="{{ site.links.etsy }}" target="_blank" rel="noopener" class="sidebar-link">🛍 Etsy</a></li>
+          {% endif %}
+          {% if site.links.gumroad and site.links.gumroad != "" %}
+          <li><a href="{{ site.links.gumroad }}" target="_blank" rel="noopener" class="sidebar-link">📦 Gumroad</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="site-main" id="main-content">
+      {{ content }}
+    </main>
+
+  </div>
+
+  {% include footer.html %}
+  {% include analytics.html %}
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

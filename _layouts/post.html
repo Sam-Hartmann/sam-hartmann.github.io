@@ -1,0 +1,60 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    {% if page.image %}
+    <div class="post-hero">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="post-hero-image">
+    </div>
+    {% endif %}
+
+    <div class="post-meta-top">
+      {% for cat in page.categories %}
+      <a href="{{ '/' | append: cat | relative_url }}" class="post-section-tag">
+        {% for section in site.sections %}
+          {% if section.id == cat %}{{ section.icon }} {{ section.title }}{% endif %}
+        {% endfor %}
+      </a>
+      {% endfor %}
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+      {% if page.author %}
+      <span class="post-author">· {{ page.author | default: site.author }}</span>
+      {% endif %}
+      {% if page.read_time %}
+      <span class="post-read-time">· {{ page.read_time }} min read</span>
+      {% endif %}
+    </div>
+
+    {% if page.excerpt and page.show_excerpt != false %}
+    <p class="post-excerpt">{{ page.excerpt | strip_html }}</p>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <div class="post-tags">
+      {% for tag in page.tags %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+    {% if page.medium_url %}
+    <div class="post-crosspost">
+      📝 Also published on <a href="{{ page.medium_url }}" target="_blank" rel="noopener">Medium</a>
+    </div>
+    {% endif %}
+  </footer>
+
+  {% include comments.html %}
+</article>

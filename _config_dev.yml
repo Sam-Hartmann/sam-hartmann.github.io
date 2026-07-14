@@ -1,0 +1,24 @@
+# Development overrides loaded on top of _config.yml
+# Usage:
+#   bundle exec jekyll serve --livereload --config _config.yml,_config_dev.yml
+# or
+#   python manage.py serve-dev
+
+title: "Your Site Title (DEV)"
+
+# Serve from root when previewing locally
+baseurl: ""
+url: "http://localhost:4000"
+
+# Local development should not emit production tracking.
+google_analytics: ""
+
+# Disable comments/reactions in dev by leaving ids empty.
+giscus:
+  repo_id: ""
+  category_id: ""
+
+# Jekyll dev behavior
+future: true
+show_drafts: true
+incremental: true

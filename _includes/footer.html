@@ -1,0 +1,33 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <strong>{{ site.title }}</strong>
+      <p>{{ site.description }}</p>
+    </div>
+    <div class="footer-col">
+      <strong>Topics</strong>
+      <ul>
+        {% for section in site.sections %}
+        <li><a href="{{ '/' | append: section.id | relative_url }}">{{ section.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="footer-col">
+      <strong>Shop &amp; Follow</strong>
+      <ul>
+        {% if site.links.etsy and site.links.etsy != "" %}
+        <li><a href="{{ site.links.etsy }}" target="_blank" rel="noopener">Etsy Shop</a></li>
+        {% endif %}
+        {% if site.links.gumroad and site.links.gumroad != "" %}
+        <li><a href="{{ site.links.gumroad }}" target="_blank" rel="noopener">Gumroad</a></li>
+        {% endif %}
+        {% if site.links.medium and site.links.medium != "" %}
+        <li><a href="{{ site.links.medium }}" target="_blank" rel="noopener">Medium</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © {{ 'now' | date: "%Y" }} {{ site.author }}. All rights reserved.
+  </div>
+</footer>
