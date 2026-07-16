@@ -132,7 +132,15 @@ def test_serve_dev_runs_jekyll_with_dev_config(monkeypatch, manage_module, isola
     def _fake_run(command):
         captured["command"] = command
 
+    class _FakeTempDir:
+        def __enter__(self):
+            return "/tmp/hustles-test-dev"
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
     monkeypatch.setattr(manage_module, "_run_jekyll", _fake_run)
+    monkeypatch.setattr(manage_module.tempfile, "TemporaryDirectory", lambda prefix: _FakeTempDir())
 
     manage_module.cmd_serve_dev(argparse.Namespace())
 
@@ -144,28 +152,8 @@ def test_serve_dev_runs_jekyll_with_dev_config(monkeypatch, manage_module, isola
         "--livereload",
         "--config",
         "_config.yml,_config_dev.yml",
-    ]
-
-
-def test_build_dev_runs_jekyll_destination(monkeypatch, manage_module, isolated_site):
-    captured = {}
-
-    def _fake_run(command):
-        captured["command"] = command
-
-    monkeypatch.setattr(manage_module, "_run_jekyll", _fake_run)
-
-    manage_module.cmd_build_dev(argparse.Namespace())
-
-    assert captured["command"] == [
-        "bundle",
-        "exec",
-        "jekyll",
-        "build",
-        "--config",
-        "_config.yml,_config_dev.yml",
         "--destination",
-        "_site_dev",
+        "/tmp/hustles-test-dev",
     ]
 
 
@@ -175,7 +163,3 @@ def test_dev_commands_require_dev_config(monkeypatch, manage_module, isolated_si
     with pytest.raises(SystemExit) as exc_serve:
         manage_module.cmd_serve_dev(argparse.Namespace())
     assert exc_serve.value.code == 1
-
-    with pytest.raises(SystemExit) as exc_build:
-        manage_module.cmd_build_dev(argparse.Namespace())
-    assert exc_build.value.code == 1
