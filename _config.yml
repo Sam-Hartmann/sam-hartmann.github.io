@@ -1,6 +1,6 @@
-title: "Your Site Title"
-description: "Stories about parenting, CMPA, and more."
-author: "Soren"
+title: "Sam's First-Time Parents Advice"
+description: "Compassionate advice and stories for first-time parents."
+author: "Sam Hartmann"
 url: "https://soerenbrandt.github.io"
 baseurl: "/hustles-website" # or "" if using a dedicated repo
 
@@ -25,9 +25,9 @@ giscus:
 
 # --- External shop / social links ---
 links:
-  etsy: "https://www.etsy.com/shop/your-shop"
+  etsy: ""
   gumroad: "https://your-name.gumroad.com"
-  medium: "https://medium.com/@your-handle"
+  medium: "https://medium.com/@hartmannsam"
 
 # --- Sections ---
 # To add a new section: add an entry here AND create a folder with index.html

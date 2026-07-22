@@ -24,14 +24,27 @@
           {% endfor %}
         </ul>
 
-        {% if site.links.etsy != "" or site.links.gumroad != "" %}
-        <p class="sidebar-heading sidebar-heading--mt">Shop</p>
+        {% if site.links.etsy != "" or site.links.gumroad != "" or site.links.medium != "" %}
+        <p class="sidebar-heading sidebar-heading--mt">External links</p>
         <ul class="sidebar-sections">
           {% if site.links.etsy and site.links.etsy != "" %}
           <li><a href="{{ site.links.etsy }}" target="_blank" rel="noopener" class="sidebar-link">🛍 Etsy</a></li>
           {% endif %}
           {% if site.links.gumroad and site.links.gumroad != "" %}
-          <li><a href="{{ site.links.gumroad }}" target="_blank" rel="noopener" class="sidebar-link">📦 Gumroad</a></li>
+          <li>
+            <a href="{{ site.links.gumroad }}" target="_blank" rel="noopener" class="sidebar-link">
+              <img src="{{ '/assets/images/gumroad-logo.png' | relative_url }}" alt="" class="sidebar-brand-logo" aria-hidden="true">
+              Gumroad
+            </a>
+          </li>
+          {% endif %}
+          {% if site.links.medium and site.links.medium != "" %}
+          <li>
+            <a href="{{ site.links.medium }}" target="_blank" rel="noopener" class="sidebar-link">
+              <img src="{{ '/assets/images/medium-logo.png' | relative_url }}" alt="" class="sidebar-brand-logo" aria-hidden="true">
+              Medium
+            </a>
+          </li>
           {% endif %}
         </ul>
         {% endif %}

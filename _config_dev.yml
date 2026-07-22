@@ -4,7 +4,7 @@
 # or
 #   python manage.py serve-dev
 
-title: "Your Site Title (DEV)"
+title: "Sam's First-Time Parents Advice (DEV)"
 
 # Serve from root when previewing locally
 baseurl: ""

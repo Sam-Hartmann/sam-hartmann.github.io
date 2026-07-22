@@ -12,7 +12,7 @@
   --font-sans: "Manrope", "Avenir Next", "Helvetica Neue", sans-serif;
   --font-serif: "Fraunces", "Iowan Old Style", "Palatino", serif;
 
-  --rail: 280px;
+  --rail: 312px;
   --content-max: 820px;
   --radius: 14px;
   --radius-sm: 9px;
@@ -286,6 +286,13 @@ mark {
   text-align: center;
 }
 
+.sidebar-brand-logo {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  flex: 0 0 1rem;
+}
+
 .site-main {
   padding: 28px clamp(18px, 3vw, 44px) 72px;
 }
@@ -467,12 +474,43 @@ mark {
   line-height: 1.85;
 }
 
+.post-content a {
+  color: color-mix(in srgb, var(--accent) 88%, #18322a);
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+}
+
+.post-content a:hover {
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.11em;
+}
+
 .post-content p,
 .post-content ul,
 .post-content ol,
 .post-content blockquote,
 .post-content pre {
   margin: 0 0 1.2rem;
+}
+
+.post-content ul,
+.post-content ol {
+  padding-left: 1.4rem;
+}
+
+.post-content ul {
+  list-style: disc;
+}
+
+.post-content ol {
+  list-style: decimal;
+}
+
+.post-content li {
+  margin: 0.25rem 0;
 }
 
 .post-content h2,
@@ -575,7 +613,7 @@ mark {
 
 @media (max-width: 1040px) {
   :root {
-    --rail: 236px;
+    --rail: 252px;
   }
 
   .site-header__actions {
