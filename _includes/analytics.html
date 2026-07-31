@@ -1,12 +1,39 @@
 {% if site.google_analytics and site.google_analytics != "" %}
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+<!-- Google Analytics – Consent Mode v2 -->
+<!-- Step 1: set deny-by-default BEFORE the async GA script loads -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  // All storage denied until the visitor explicitly accepts.
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage':        'denied',
+    'wait_for_update':   500
+  });
+
+  // Restore a consent decision made on a previous visit.
+  if (localStorage.getItem('cookie_consent') === 'granted') {
+    gtag('consent', 'update', { 'analytics_storage': 'granted' });
+  }
+</script>
+
+<!-- Step 2: load GA4 (async – commands above are queued in dataLayer) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+
+<!-- Step 3: configure GA4.
+     url_passthrough:    false – GA does NOT append _gl params to outbound links
+                                 (keeps URLs clean, avoids accidentally leaking
+                                  data across sites via the URL bar).
+     ads_data_redaction: true  – redacts ad-click identifiers from URL parameters
+                                  so no ad-network tokens are sent to GA.
+     Note: anonymize_ip was a Universal Analytics option; GA4 always anonymises
+     IPs automatically and does not accept this parameter. -->
+<script>
   gtag('js', new Date());
   gtag('config', '{{ site.google_analytics }}', {
-    anonymize_ip: true
+    url_passthrough:    false,
+    ads_data_redaction: true
   });
 </script>
 {% endif %}

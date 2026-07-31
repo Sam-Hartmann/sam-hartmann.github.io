@@ -11,7 +11,10 @@
     <!-- Left sidebar: sections + shop links -->
     <aside class="sidebar" aria-label="Sections">
       <nav>
-        <p class="sidebar-heading">Topics</p>
+        <a href="{{ '/' | relative_url }}" class="sidebar-link sidebar-home{% if page.url == '/' %} sidebar-link--active{% endif %}">
+          Home
+        </a>
+        <p class="sidebar-heading sidebar-heading--mt">Topics</p>
         <ul class="sidebar-sections">
           {% for section in site.sections %}
           <li>
@@ -60,6 +63,7 @@
 
   {% include footer.html %}
   {% include analytics.html %}
+  {% include cookie-consent.html %}
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html>

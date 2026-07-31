@@ -257,6 +257,10 @@ mark {
   margin-top: 24px;
 }
 
+.sidebar-home {
+  margin-bottom: 8px;
+}
+
 .sidebar-sections {
   display: flex;
   flex-direction: column;
@@ -706,3 +710,121 @@ mark {
     grid-template-columns: 1fr;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Cookie consent banner                                               */
+/* ------------------------------------------------------------------ */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--paper);
+  border-top: 1px solid var(--line-strong);
+  box-shadow: 0 -4px 20px rgba(24, 22, 18, 0.10);
+  padding: 16px clamp(16px, 4vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cookie-banner__text {
+  flex: 1 1 280px;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.cookie-banner__text a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-banner__btn {
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cookie-banner__btn--accept {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.cookie-banner__btn--accept:hover {
+  background: #0d4a3a;
+}
+
+.cookie-banner__btn--decline {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line-strong);
+}
+
+.cookie-banner__btn--decline:hover {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------------ */
+/* Prose content (privacy policy, standalone pages)                   */
+/* ------------------------------------------------------------------ */
+.prose h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  margin-bottom: 0.25em;
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  margin-top: 2em;
+}
+
+.prose p,
+.prose li {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5em 0;
+}
+
+.prose th,
+.prose td {
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  text-align: left;
+}
+
+.prose th {
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2em 0;
+}
+
