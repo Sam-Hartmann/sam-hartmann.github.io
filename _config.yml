@@ -6,7 +6,7 @@ baseurl: "" # or "" if using a dedicated repo
 
 # --- Google Analytics ---
 # Replace with your GA4 measurement ID (G-XXXXXXXXXX)
-google_analytics: ""
+google_analytics: "G-LJC9E1DH4P"
 
 # --- Giscus (comments + reactions, free via GitHub Discussions) ---
 # 1. Go to https://giscus.app and connect your repo

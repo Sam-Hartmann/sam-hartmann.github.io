@@ -11,7 +11,7 @@ read_time: 6
 medium_url: https://medium.com/@hartmannsam/first-time-parents-these-are-the-essentials-you-will-actually-use-a-lot-in-your-first-month-a29ff9e1b20a
 ---
 
-![Day 1 baby essentials](/assets/images/first-time-parents-essentials-for-your-first-month/hero.png)
+![Day 1 baby essentials]({{ '/assets/images/first-time-parents-essentials-for-your-first-month/hero.png' | relative_url }})
 
 Our son was born unexpectedly two weeks early. He was healthy, but the early arrival meant our plans — including help from my wife's parents — didn't work out as planned.
 

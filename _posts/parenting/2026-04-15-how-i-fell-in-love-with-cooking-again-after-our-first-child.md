@@ -11,7 +11,7 @@ read_time: 3
 medium_url: https://medium.com/@hartmannsam/how-i-fell-in-love-with-cooking-again-after-our-first-child-9773aefc75f7
 ---
 
-![Cooking for two](/assets/images/how-i-fell-in-love-with-cooking-again-after-our-first-child/hero.png)
+![Cooking for two]({{ '/assets/images/how-i-fell-in-love-with-cooking-again-after-our-first-child/hero.png' | relative_url }})
 
 First off, I am not complaining. My wife carried the brunt of feeding-related woes for the first 6 months of our baby's life by exclusively breastfeeding. But starting solids turned cooking into a less exciting chore than it used to be. You either end up eating boring baby-appropriate meals or you prepare two separate meals all the time.
 

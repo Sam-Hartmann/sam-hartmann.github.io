@@ -27,7 +27,7 @@ The snacks are ordered matching a typical elimination diet for CMPA. Starting wi
 
 That means you should go to the section without any of the allergens you are eliminating and everything below you can eat.
 
-![Snack list](/assets/images/allergen-free-snacks-for-breastfeeding-babies-with-cmpa/hero.png)
+![Snack list]({{ '/assets/images/allergen-free-snacks-for-breastfeeding-babies-with-cmpa/hero.png' | relative_url }})
 
 ### Dairy-free snacks
 

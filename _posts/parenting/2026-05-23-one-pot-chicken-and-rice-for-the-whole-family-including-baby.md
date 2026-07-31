@@ -11,7 +11,7 @@ read_time: 2
 medium_url: https://medium.com/@hartmannsam/one-pot-chicken-and-rice-for-the-whole-family-including-baby-1c53d136eaa8
 ---
 
-![Baby chicken one-pot](/assets/images/one-pot-chicken-and-rice-for-the-whole-family-including-baby/hero.png)
+![Baby chicken one-pot]({{ '/assets/images/one-pot-chicken-and-rice-for-the-whole-family-including-baby/hero.png' | relative_url }})
 
 The latest dish in our saga is another rice dish.
 

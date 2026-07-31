@@ -11,7 +11,7 @@ read_time: 2
 medium_url: https://medium.com/@hartmannsam/i-tried-to-make-baby-friendly-chicken-fricassee-it-was-a-mistake-77bead95674c
 ---
 
-![Baby fricassee](/assets/images/i-tried-to-make-baby-friendly-chicken-fricassee-it-was-a-mistake/hero.png)
+![Baby fricassee]({{ '/assets/images/i-tried-to-make-baby-friendly-chicken-fricassee-it-was-a-mistake/hero.png' | relative_url }})
 
 Just this week, our son turned 9 months. A lot is happening. He's about to start crawling. He's so close that he is upset almost daily that it hasn't happened yet. He just got his 9-month shots, and my wife reintroduced dairy into her diet as the second to last CMPA elimination to go.
 

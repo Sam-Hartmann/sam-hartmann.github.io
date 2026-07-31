@@ -17,7 +17,7 @@ Unfortunately, just like you, your baby doesn't know what's going on either. So 
 
 In those moments, this visual helped me a lot.
 
-![Baby map](/assets/images/this-trick-helped-a-lot-when-our-infant-was-crying/hero.png)
+![Baby map]({{ '/assets/images/this-trick-helped-a-lot-when-our-infant-was-crying/hero.png' | relative_url }})
 
 From bottom to top, check:
 
