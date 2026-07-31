@@ -1,8 +1,8 @@
 title: "Sam's First-Time Parents Advice"
 description: "Compassionate advice and stories for first-time parents."
 author: "Sam Hartmann"
-url: "https://soerenbrandt.github.io"
-baseurl: "/hustles-website" # or "" if using a dedicated repo
+url: "https://Sam-Hartmann.github.io"
+baseurl: "" # or "" if using a dedicated repo
 
 # --- Google Analytics ---
 # Replace with your GA4 measurement ID (G-XXXXXXXXXX)
@@ -12,7 +12,7 @@ google_analytics: ""
 # 1. Go to https://giscus.app and connect your repo
 # 2. Fill in the values it gives you below
 giscus:
-  repo: "soerenbrandt/hustles"
+  repo: "Sam-Hartmann/hustles"
   repo_id: ""         # from giscus.app
   category: "Comments"
   category_id: ""     # from giscus.app
