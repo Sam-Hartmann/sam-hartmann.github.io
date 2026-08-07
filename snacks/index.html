@@ -4,6 +4,34 @@ title: Snack Database
 description: "Search baby and toddler snacks by allergen, brand, or name. Filter out common allergens like dairy, soy, egg, wheat, and more."
 permalink: /snacks/
 ---
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Baby & Toddler Snack Database",
+  "description": "Search and filter baby and toddler snacks by allergen, brand, or name. Filter out common allergens like dairy, soy, egg, wheat, and more.",
+  "url": "https://sam-hartmann.github.io/snacks/",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "author": {
+    "@type": "Person",
+    "name": "Sam Hartmann"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://sam-hartmann.github.io/snacks/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <div class="snackdb-header">
   <h1>Snack Database 🍪</h1>
   <p>Search and filter snacks by allergen, brand, or name. Click an allergen to exclude snacks containing it.</p>
