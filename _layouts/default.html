@@ -27,6 +27,17 @@
           {% endfor %}
         </ul>
 
+        <p class="sidebar-heading sidebar-heading--mt">Tools</p>
+        <ul class="sidebar-sections">
+          <li>
+            <a href="{{ '/snacks/' | relative_url }}"
+               class="sidebar-link{% if page.url contains 'snacks' %} sidebar-link--active{% endif %}">
+              <span class="sidebar-icon">🍪</span>
+              Snack Database
+            </a>
+          </li>
+        </ul>
+
         {% if site.links.etsy != "" or site.links.gumroad != "" or site.links.medium != "" %}
         <p class="sidebar-heading sidebar-heading--mt">External links</p>
         <ul class="sidebar-sections">

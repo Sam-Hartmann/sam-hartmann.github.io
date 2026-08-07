@@ -9,11 +9,13 @@ Usage:
     python manage.py list-sections
     python manage.py list-posts [--section SECTION]
     python manage.py serve-dev
+    python manage.py export-snacks
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
 import re
 import subprocess
 import sys
@@ -353,13 +355,93 @@ def cmd_new_post(args) -> None:
     print("   Edit it, then commit and push to publish.")
 
 
+def cmd_export_snacks(_args) -> None:
+    """Export snack database to assets/data/snacks.json for the website."""
+    import json
+    import os
+    import sys
+
+    snackdb_dir = WEBSITE_DIR.parent / "hustles" / "snackdb"
+    if not snackdb_dir.exists():
+        print(f"Snackdb directory not found: {snackdb_dir}")
+        sys.exit(1)
+
+    # The snackdb engine uses a relative path for snacks.db, so we must cd into it.
+    prev_dir = Path.cwd()
+    os.chdir(snackdb_dir)
+    try:
+        repo_root = WEBSITE_DIR.parent
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
+        from hustles.snackdb.core import (  # noqa: PLC0415
+            CMPA_ALLERGEN_ORDER,
+            CSVExporter,
+        )
+
+        snacks_raw = CSVExporter.fetch_snack_data_from_database()
+        snacks_out = []
+        for brand, name, url, last_updated, ingredients, allergen_categories in snacks_raw:
+            unique_allergens = sorted(
+                set((allergen_categories or "").split(",")),
+                key=lambda x: CMPA_ALLERGEN_ORDER.index(x) if x in CMPA_ALLERGEN_ORDER else 99,
+            )
+            unique_allergens = [a for a in unique_allergens if a]
+            snacks_out.append({
+                "name": name,
+                "brand": brand,
+                "url": url or "",
+                "allergens": unique_allergens,
+                "ingredients": ingredients,
+                "last_updated": str(last_updated),
+            })
+    finally:
+        os.chdir(prev_dir)
+
+    out_dir = WEBSITE_DIR / "assets" / "data"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "snacks.json"
+    out_path.write_text(json.dumps(snacks_out, indent=2))
+    print(f"Exported {len(snacks_out)} snacks → {out_path.relative_to(WEBSITE_DIR)}")
+
+
+def _refresh_snacks_data_if_available(_args) -> None:
+    """Refresh snack data when the source database is available locally."""
+    snackdb_dir = WEBSITE_DIR.parent / "hustles" / "snackdb"
+    if not snackdb_dir.exists():
+        print("Skipping snack export: local snackdb source not found.")
+        return
+
+    cmd_export_snacks(_args)
+
+
+@contextlib.contextmanager
+def _snacks_data(_args):
+    """Refresh assets/data/snacks.json for a build, then restore the previous content.
+
+    The file is always restored to its pre-build state so that a dev build never
+    silently modifies or deletes the committed snacks data file.
+    """
+    data_path = WEBSITE_DIR / "assets" / "data" / "snacks.json"
+    previous_content = data_path.read_text() if data_path.exists() else None
+
+    try:
+        _refresh_snacks_data_if_available(_args)
+        yield
+    finally:
+        if previous_content is not None:
+            data_path.write_text(previous_content)
+        elif data_path.exists():
+            data_path.unlink()
+
+
 def cmd_serve_dev(_args) -> None:
     """Serve the website using development config overrides in a temp output dir."""
     if not DEV_CONFIG_FILE.exists():
         print("Missing _config_dev.yml. Create it first.")
         sys.exit(1)
-    with tempfile.TemporaryDirectory(prefix="hustles-jekyll-dev-") as temp_dir:
+    with _snacks_data(_args), tempfile.TemporaryDirectory(prefix="hustles-jekyll-dev-") as temp_dir:
         print(f"Starting Jekyll in DEV mode (temporary destination: {temp_dir})...")
+        print("Tip: use 'python manage.py build-dev' to write output to _site_dev/.")
         _run_jekyll([
             "bundle",
             "exec",
@@ -371,6 +453,28 @@ def cmd_serve_dev(_args) -> None:
             "--destination",
             temp_dir,
         ])
+
+
+def cmd_build_dev(_args) -> None:
+    """Build the website using development config overrides into _site_dev/."""
+    if not DEV_CONFIG_FILE.exists():
+        print("Missing _config_dev.yml. Create it first.")
+        sys.exit(1)
+
+    destination = WEBSITE_DIR / "_site_dev"
+    with _snacks_data(_args):
+        print(f"Building DEV site into {destination}...")
+        _run_jekyll([
+            "bundle",
+            "exec",
+            "jekyll",
+            "build",
+            "--config",
+            "_config.yml,_config_dev.yml",
+            "--destination",
+            str(destination),
+        ])
+    print("Done. Open _site_dev/index.html or serve from _site_dev/.")
 
 
 def main() -> None:
@@ -401,6 +505,9 @@ def main() -> None:
     np.add_argument("--overwrite", action="store_true", help="Overwrite existing post file without prompting")
 
     sub.add_parser("serve-dev", help="Run local dev server with _config_dev.yml in a temporary output folder")
+    sub.add_parser("build-dev", help="Build the site with _config_dev.yml into _site_dev/")
+
+    sub.add_parser("export-snacks", help="Export snack DB to assets/data/snacks.json for the website")
 
     args = parser.parse_args()
 
@@ -410,6 +517,8 @@ def main() -> None:
         "new-section": cmd_new_section,
         "new-post": cmd_new_post,
         "serve-dev": cmd_serve_dev,
+        "build-dev": cmd_build_dev,
+        "export-snacks": cmd_export_snacks,
     }
     commands[args.command](args)
 

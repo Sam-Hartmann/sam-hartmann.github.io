@@ -1,0 +1,459 @@
+[
+  {
+    "name": "Fruit (Apple, Banana, Peach, Tangerines, Berries)",
+    "brand": "",
+    "url": "",
+    "allergens": [],
+    "ingredients": "fruit",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Vegetables (Carrot, Celery, Cucumber, Bell Pepper)",
+    "brand": "",
+    "url": "",
+    "allergens": [],
+    "ingredients": "vegetable",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Boomchickapop SWEET & SALTY KETTLE CORN",
+    "brand": "Boomchickapop",
+    "url": "https://www.boomchickapop.com/ready-eat-popcorn/sweet-salty-kettle-corn-0",
+    "allergens": [],
+    "ingredients": "popcorn,sunflower oil,cane sugar,sea salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Cocojune Dairy-Free Yogurt - Mixed Berry",
+    "brand": "Cocojune",
+    "url": "https://www.cocojune.co/products/mixed-berry/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "organic coconuts,water,organic blueberries,organic black currant,organic cane sugar,organic tapioca,vegan probiotic cultures",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Cocojune Dairy-Free Yogurt - Pure Coconut",
+    "brand": "Cocojune",
+    "url": "https://www.cocojune.co/products/pure-coconut/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "organic coconuts,water,organic tapioca,vegan probiotic cultures",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Cocojune Dairy-Free Yogurt - Vanilla Chamomile",
+    "brand": "Cocojune",
+    "url": "https://www.cocojune.co/products/vanilla-chamomile/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "organic coconuts,water,organic agave syrup,organic tapioca,organic vanilla extract,organic vanilla,organic chamomile,vegan probiotic cultures",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "DORITOS - COOL RANCH\u00ae FLAVORED TORTILLA CHIPS",
+    "brand": "Doritos",
+    "url": "https://www.doritos.com/products/doritos-cool-ranch-flavored-tortilla-chips",
+    "allergens": [
+      "Dairy",
+      "Soy"
+    ],
+    "ingredients": "corn,vegetable oil,corn oil,and/or canola oil,and/or soybean oil,and/or sunflower oil,and less than 2% of:,salt,tomato powder,buttermilk,lactose,onion powder,sugar,skim milk,cheddar cheese,milk,cheese cultures,salt,enzymes,garlic powder,corn maltodextrin,potassium salt,monosodium glutamate,whey,dextrose,malic acid,natural and artificial flavors,sodium acetate,artificial color,red 40,blue 1,yellow 5,spices,disodium inosinate,disodium guanylate,citric acid",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "DORITOS - NACHO CHEESE FLAVORED TORTILLA CHIPS",
+    "brand": "Doritos",
+    "url": "https://www.doritos.com/products/doritos-nacho-cheese-flavored-tortilla-chips",
+    "allergens": [
+      "Dairy",
+      "Soy"
+    ],
+    "ingredients": "corn,vegetable oil,corn oil,and/or canola oil,and/or soybean oil,and/or sunflower oil,corn maltodextrin,and less than 2% of:,cheddar cheese,milk,cheese cultures,salt,enzymes,salt,whey,monosodium glutamate,buttermilk,romano cheese,milk,cheese cultures,salt,enzymes,whey protein concentrate,onion powder,potassium salt,corn flour,natural & artificial flavors,dextrose,tomato powder,lactose,spices,artificial color,yellow 6,yellow 5,red 40,lactic acid,citric acid,sugar,garlic powder,skim milk,red and green bell peppers,disodium inosinate,disodium guanylate",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "DORITOS - SWEET & TANGY BBQ FLAVORED TORTILLA CHIPS",
+    "brand": "Doritos",
+    "url": "https://www.doritos.com/products/doritos-sweet-tangy-bbq-flavored-tortilla-chips?fwreferrer-origin=https://www.fl-vr.com/&fwreferrer-channel-id=WV64wVB&fwreferrer-video-id=oj9NYl&fwreferrer-guest-id=1ad5601e-2d0b-4e14-90d6-d47f107d16b7",
+    "allergens": [
+      "Soy"
+    ],
+    "ingredients": "corn,vegetable oil,corn oil,and/or canola oil,and/or soybean oil,and/or sunflower oil,and less than 2% of:,corn maltodextrin,salt,tomato powder,sodium diacetate,sugar,dextrose,monosodium glutamate,onion powder,spices,molasses,yeast extract,paprika,sodium acetate,natural flavors (contains milk),corn syrup solids,artificial color,yellow 6 lake,red 40 lake,blue 2 lake,garlic powder,malic acid,disodium inosinate,disodium guanylate,stevia leaf extract",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "ALMOND JOY Coconut and Almond Chocolate Candy Bar",
+    "brand": "Hershey's",
+    "url": "https://www.hersheyland.com/products/almond-joy-coconut-and-almond-chocolate-candy-bars-9-66-oz-6-pack.html",
+    "allergens": [
+      "Dairy",
+      "Tree nuts"
+    ],
+    "ingredients": "corn syrup,sugar,coconut,pgpr (artificial flavor) (palm oil,shea oil,sunflower oil,palm kernel oil,safflower oil),almonds,lactose,contains 2% or less of:,reduced protein whey,chocolate,cocoa,skim milk,cocoa processed with alkali,whey,salt,lecithin,vanillin (artificial flavor),hydrolyzed milk protein,sodium metabisulfite (to maintain freshness),pgpr",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Kit Kat",
+    "brand": "Hershey's",
+    "url": "https://www.hersheyland.com/products/kit-kat-milk-chocolate-candy-bars-1-5-oz-6-pack.html",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Wheat"
+    ],
+    "ingredients": "sugar,wheat flour,cocoa butter,chocolate,lactose (milk),vegetable oil (palm oil,palm kernel oil),skim milk,milk fat,contains 2% or less of:,lecithin (soy),pgpr,vanillin (artificial flavor),salt,yeast,baking soda",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "MOUNDS Dark Chocolate and Coconut Candy Bar",
+    "brand": "Hershey's",
+    "url": "https://www.hersheyland.com/products/mounds-dark-chocolate-and-coconut-candy-bar-1-75-oz.html",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Tree nuts"
+    ],
+    "ingredients": "corn syrup,coconut,sugar,chocolate,cocoa,vegetable oil (palm oil,shea oil,sunflower oil,palm kernel oil,&/or safflower oil),contains 2% or less of:,salt,lecithin (soy),milk fat,pgpr,sodium metabisulfite (to maintain freshness),natural flavor",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "REESE'S Milk Chocolate Snack Size Peanut Butter Cups",
+    "brand": "Hershey's",
+    "url": "https://www.hersheyland.com/products/reeses-milk-chocolate-snack-size-peanut-butter-cups-4-4-oz-8-pack.html",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Tree nuts",
+      "Peanut"
+    ],
+    "ingredients": "milk chocolate (sugar,cocoa butter,chocolate,skim milk,milk fat,lactose,lecithin (soy),pgpr),peanuts,sugar,dextrose,salt,tbhq & citric acid (to maintain freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "LA TERRA FINA - SPINACH ARTICHOKE & PARMESAN DIP & SPREAD",
+    "brand": "La Terra Fina",
+    "url": "https://laterrafina.com/product/spinach-artichoke-parmesan/",
+    "allergens": [
+      "Dairy",
+      "Egg"
+    ],
+    "ingredients": "cream cheese (pasteurized cultured milk and cream,salt,stabilizers [guar gum,carob bean gum and xanthan gum]),spinach,mayonnaise (canola oil,water,whole egg,egg yolk,sugar,distilled vinegar,honey,salt,spices,lemon juice concentrate),onion,artichokes (artichokes,water,salt,citric acid),parmesan cheese (pasteurized milk,cheese culture,salt,enzymes),monterey jack cheese (pasteurized milk,cheese cultures,salt,enzymes),less than 2% of: dried garlic,cayenne pepper,sea salt,corn starch,cultured sugar,citric acid",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Lay's - Classic",
+    "brand": "Lay's",
+    "url": "https://www.lays.com/products/lays-classic-potato-chips",
+    "allergens": [
+      "Soy"
+    ],
+    "ingredients": "potatoes,vegetable oil,canola oil,and/or corn oil,and/or soybean oil,and/or sunflower oil,salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Lay's - Sour Cream and Onion",
+    "brand": "Lay's",
+    "url": "https://www.lays.com/products/lays-sour-cream-onion-flavored-potato-chips",
+    "allergens": [
+      "Dairy",
+      "Soy"
+    ],
+    "ingredients": "potatoes,vegetable oil,canola oil,and/or corn oil,and/or soybean oil,and/or sunflower oil,skim milk,salt,whey,onion powder,parsley,sour cream,cultured cream,skim milk,dextrose,corn maltodextrin,natural flavors,medium chain triglycerides,lactose,citric acid",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Marketside - Premium Heatable Spinach Artichoke Dip",
+    "brand": "Marketside",
+    "url": "https://www.walmart.com/ip/Marketside-Premium-Heatable-Spinach-Artichoke-Dip-Small-Tub-16-oz-1-Count-Refrigerated/37915367",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Egg"
+    ],
+    "ingredients": "cream cheese (pasteurized milk,cream,cheese culture,salt,locust bean gum),spinach,mayonnaise (soybean oil,water,egg yolks,distilled vinegar,salt,artichoke artichoke hearts,water,salt,citric acid,ascorbic acid,sour cream pasteurized cultured cream milk,nonfat dry milk powder,enzymes),parmesan cheese (pasteurized part-skim milk,cheese culture,salt,enzymes),cheese blend (low moisture part-skim mozzarella [part-skim milk,cheese cultures,salt,enzymes],asiago cheese (pasteurized milk,cheese cultures,salt,enzymes],powdered cellulose [to prevent caking],natamycin),sugar,salt,distilled vinegar,lemon juice concentrate,water,modified corn starch,glucono delta-lactone,potassium sorbate (preservative),sodium benzoate (preservative),xanthan gum,citric acid,garlic powder",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Mars Chocolate Bar",
+    "brand": "Mars",
+    "url": "https://www.marsbar.co.uk/products/chocolate-bar/mars-chocolate-fun-size-bars-multipack-19x18g",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Egg"
+    ],
+    "ingredients": "sugar,glucose syrup,skimmed milk powder,cocoa butter,cocoa mass,sunflower oil,milk fat,lactose and protein from whey (from milk),whey powder (from milk),palm fat,fat reduced cocoa,barley malt extract,emulsifier (soya lecithin),salt,egg white powder,milk protein,natural vanilla extract,milk chocolate contains milk solids 14% minimum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Once Again - Gluten-Free Graham Crackers with Dark Chocolate",
+    "brand": "Once Again",
+    "url": "https://www.onceagain.com/products/dark-chocolate-graham-crackers?srsltid=AfmBOope0Nohd05L9LHTnA7nPw-3gwWqXXKip8hAYxW8XgFWRy0nuzXO",
+    "allergens": [],
+    "ingredients": "organic sorghum flour,organic oat flour,organic cassava flour,organic chocolate,organic cane sugar,organic palm oil,water,organic tapioca syrup,organic sunflower oil,organic cane molasses,leavening (pototato starch,cream of tartar,sodium bicarbonate),organic vanilla extract (organic alcohol,organic vanilla beans,water),natural mixed tocopherols (to maintain freshness),xanthan gum,salt,organic guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Once Again - Gluten-Free Graham Crackers with Real Honey",
+    "brand": "Once Again",
+    "url": "https://www.onceagain.com/products/honey-graham-crackers?srsltid=AfmBOop0q5hchUqxxVazU4OGnAogyVEOZCVYvFj9lY-dMF_GJ13qjwur",
+    "allergens": [],
+    "ingredients": "organic sorghum flour,organic oat flour,organic cassava flour,organic cane sugar,organic palm oil,water,organic honey,organic sunflower oil,organic cane molasses,leavening (pototato starch,cream of tartar,sodium bicarbonate),natural mixed tocopherols (to maintain freshness),organic cinnamon,salt,xanthan gum,organic guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Once Again - Graham Sandwiches Peanut Butter",
+    "brand": "Once Again",
+    "url": "https://www.onceagain.com/products/peanut-butter-graham-cracker-sandwiches-organic-non-gmo-single-serve-cracker-snacks?srsltid=AfmBOorxJq56hob6zOJsP23hm3GS7ReenRO4sAHGw-0Lvgk1rhrcEpzE",
+    "allergens": [
+      "Tree nuts",
+      "Peanut"
+    ],
+    "ingredients": "dry roasted blanched organic peanuts,organic palm oil,organic cane sugar,organic sorghum flour,organic oat flour,organic cassava flour,organic peanut flour,water,organic tapioca syrup,organic sunflower oil,organic cane molasses,natural mixed tocopherols (to maintain freshness),leavening (potato starch,cream of tartar,sodium bicarbonate),salt,xanthan gum,organic cinnamon,organic guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Oreo",
+    "brand": "Oreo",
+    "url": "https://www.oreo.com/products/chocolate-sandwich-cookies-family-size-2-pack",
+    "allergens": [
+      "Soy",
+      "Wheat"
+    ],
+    "ingredients": "unbleached enriched flour wheat flour,niacin,reduced iron,thiamine mononitrate [vitamin b1],riboflavin vitamin b21,folic acid,sugar,palm oil,soybean and/or canola oil,cocoa (processed with alkali),high fructose corn syrup,leavening (baking soda and/or calcium phosphate),salt,soy lecithin,chocolate,artificial flavor",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Pocket's Chocolates - Black Sesame",
+    "brand": "Pocket's Chocolates",
+    "url": "https://pocketschocolates.com/products/black-sesame?srsltid=AfmBOooWkNRBsW0VI0UrG2j4g9UrcI_wMZ3oUOZEPBeJ6EdZ8ebCuKPe",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "almonds,chocolate blend,fair trade cocoa butter,organic oat milk,monkfruit extract,organic raw cane sugar gluten free oats,organic matcha,organic sunflower lecithin,natural sea salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Pocket's Chocolates - Matcha",
+    "brand": "Pocket's Chocolates",
+    "url": "https://pocketschocolates.com/products/matcha?srsltid=AfmBOoo-NfDd2uWv5AHXzLaQI5XqwwpnTHobdcZ8dLECYMz2nh_iASXo",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "almonds,chocolate blend,fair trade cocoa butter,organic oat milk,monkfruit extract,organic raw cane sugar,gluten-free oats,organic matcha,organic sunflower lecithin,natural sea salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Pocket's Chocolates - Ube",
+    "brand": "Pocket's Chocolates",
+    "url": "https://pocketschocolates.com/products/ube?srsltid=AfmBOorp99Gj1RuzUZCnssiF6xLWeDEjgq5Vj8uU6gOaOTBs1D7eOXyb",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "dry roasted almonds,cocoa butter,organic raw cane sugar,organic oat milk,oat,ube,organic palm kernel oil,purple sweet potato,natural flavors,organic sunflower lecithin,sea salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Sabra - Classic Hummus",
+    "brand": "Sabra",
+    "url": "https://www.sabra.com/products/sabra-classic-hummus-2",
+    "allergens": [
+      "Soy",
+      "Sesame"
+    ],
+    "ingredients": "chickpeas,water,tahini (sesame),soybean oil,and/or sunflower oil,less than 2% of :,salt,garlic,citric acid,potassium sorbate to maintain freshness,spices,natural flavor",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Sabra - Roasted Garlic Hummus",
+    "brand": "Sabra",
+    "url": "https://www.sabra.com/products/sabra-roasted-garlic-hummus-0",
+    "allergens": [
+      "Soy",
+      "Sesame"
+    ],
+    "ingredients": "chickpeas,water,tahini (sesame),soybean oil,and/or sunflower oil,garlic,less than 2% of:,red bell pepper,spices,salt,citric acid,natural flavor,potassium sorbate to maintain freshness",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Simple Mills - Crunchy Chocolate Chip Cookies",
+    "brand": "Simple Mills",
+    "url": "https://simplemills.com/Products/Product/Crunchy-Chocolate-Chip-Cookies.aspx",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "nut & seed flour blend (almonds,organic coconut,flaxseeds),tapioca starch,chocolate chips (cane sugar,unsweetened chocolate,cocoa butter),organic coconut sugar,organic coconut oil,arrowroot,vanilla extract,sea salt,baking soda,cream of tartar,rosemary extract (for freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Simple Mills - Crunchy Toasted Pecan Cookies",
+    "brand": "Simple Mills",
+    "url": "https://simplemills.com/Products/Product/Crunchy-Toasted-Pecan-Cookies-1.aspx",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "nut flour blend (almonds,pecans,coconuts),tapioca starch,organic coconut sugar,organic coconut oil,arrowroot,vanilla extract,baking soda,sea salt,cream of tartar,rosemary extract (for freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Simple Mills - Dark Chocolate Almond Soft Baked Almond Flour Bars",
+    "brand": "Simple Mills",
+    "url": "https://simplemills.com/Products/Product/Dark-Chocolate-Almond-Soft-Baked-Bars.aspx",
+    "allergens": [
+      "Egg",
+      "Tree nuts"
+    ],
+    "ingredients": "almonds,organic coconut nectar,seed & seed flour blend (sunflower,flax,chia),chocolate chips (cane sugar,unsweetened chocolate,cocoa butter),tapioca starch,organic coconut oil,almond butter,molasses,egg whites,raisin juice concentrate (for freshness),sea salt,baking soda,rosemary extract (for freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Simple Mills - Nutty Banana Bread Soft Baked Almond Flour Bars",
+    "brand": "Simple Mills",
+    "url": "https://simplemills.com/Products/Product/Nutty-Banana-Bread-Soft-Baked-Bars.aspx",
+    "allergens": [
+      "Egg",
+      "Tree nuts"
+    ],
+    "ingredients": "almonds,organic coconut nectar,tapioca starch,bananas,seed & seed flour blend (sunflower,flax,chia),molasses,organic coconut oil,almond butter,raisin juice concentrate (for freshness),egg whites,sea salt,baking soda,organic cinnamon,rosemary extract (for freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Simple Mills - Sun-dried Tomato & Basil Almond Flour Crackers",
+    "brand": "Simple Mills",
+    "url": "https://simplemills.com/Products/Product/Sun-dried-Tomato-Basil-Almond-Flour-Crackers.aspx",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "nut & seed flour blend (almonds,sunflower seeds,flax),tapioca starch,cassava flour,organic sunflower oil,sun-dried tomatoes,sea salt,organic onion,organic basil,organic garlic,organic oregano,organic pepper,rosemary extract (for freshness)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "SNICKERS Singles Size Chocolate Candy Bars",
+    "brand": "Snickers",
+    "url": "https://www.snickers.com/products/chocolate/snickers-singles-size-chocolate-candy-bars-186-oz-bars",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Egg",
+      "Tree nuts",
+      "Peanut"
+    ],
+    "ingredients": "milk chocolate (sugar,cocoa butter,chocolate,skim milk,lactose,milkfat,soy lecithin),peanuts,corn syrup,sugar,palm oil,skim milk,lactose,salt,egg whites,artificial flavors",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - bananas foster",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/cashewmilk/chocolate-drizzled-bananas-foster/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "cashewmilk (water,cashews),cane sugar,organic coconut oil,organic tapioca syrup,banana puree,contains 2% or less of: water,coconut oil,brown sugar,pea protein,cocoa,organic cane sugar,natural flavor,sea salt,locust bean gum,caramel color,corn starch,chocolate liquor,guar gum,ascorbic acid,cinnamon,banana extract",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - chocolate cookies n Cr\u00e8me",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/cashewmilk/chocolate-cookies-n-creme/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "cashewmilk (water,cashews),cane sugar,organic coconut oil,cocoa powder (processed with alkali),contains 2% or less of: powdered sugar,palm oil,pea protein,pea starch,potato starch,rice flour,sunflower oil,salt,sunflower lecithin,pea fiber,tapioca starch,tapioca syrup,natural flavor,modified cellulose,inulin,sodium bicarbonate,sea salt,locust bean gum,guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - dark chocolate truffle",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/cashewmilk/dark-chocolate-truffle/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "cashewmilk (water,cashews),cane sugar,organic coconut oil,organic cane sugar,organic cocoa (processed with alkali),coconut oil,contains 2% or less of: organic tapioca syrup,cocoa,pea protein,organic tapioca starch,organic chocolate liquor,sea salt,chocolate liquor,locust bean gum,natural flavor,guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - mocha almond fudge dipped bars",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/almondmilk/mocha-almond-fudge-bar/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "almondmilk (water,almonds),cane sugar,coconut and/or sunflower oil,almonds,chocolate liquor,organic tapioca syrup,water,contains 2% or less of: cocoa powder (processed with alkali),organic cocoa,pea protein,tapioca starch,cocoa butter,natural flavor,coffee (water,coffee),locust bean gum,sea salt,guar gum",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - salted caramel cluster",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/cashewmilk/salted-caramel-cluster/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "cashewmilk (water,cashews),cane sugar,organic tapioca syrup,organic coconut oil,roasted cashews (cashews,safflower oil),contains 2% or less of: coconut oil,cocoa,pea protein,sea salt,natural flavor,locust bean gum,chocolate liquor,organic cocoa butter,organic molasses,pectin,salt,sodium citrate,guar gum,caramel syrup",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "So Delicious - vanilla bean",
+    "brand": "So Delicious",
+    "url": "https://sodeliciousdairyfree.com/dairy-free-foods/dairy-free-frozen-desserts/coconutmilk/vanilla-bean/",
+    "allergens": [
+      "Tree nuts"
+    ],
+    "ingredients": "organic coconutmilk (water,organic coconut),organic cane sugar,organic coconut oil,organic tapioca syrup,contains 2% or less of: pea protein,locust bean gum,guar gum,vanilla bean specks,vanilla extract,natural flavor",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Tostitos - Chunky Salsa Mild",
+    "brand": "Tostitos",
+    "url": "https://www.tostitos.com/products/tostitosr-chunky-salsa-mild",
+    "allergens": [],
+    "ingredients": "tomato puree,water,tomato paste,diced tomatoes in tomato juice,jalapeno peppers,onions,and less than 2% of the following:,vinegar,salt,natural flavor,garlic powder",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Tostitos - Original",
+    "brand": "Tostitos",
+    "url": "https://www.tostitos.com/products/tostitosr-original-restaurant-style-tortilla-chips",
+    "allergens": [
+      "Soy"
+    ],
+    "ingredients": "corn,whole corn,vegetable oil,corn oil,and/or canola oil,and/or soybean oil,and/or sunflower oil,salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Tostitos - Scoops",
+    "brand": "Tostitos",
+    "url": "https://www.tostitos.com/products/tostitosr-scoopsr-original-tortilla-chips",
+    "allergens": [
+      "Soy"
+    ],
+    "ingredients": "corn,whole corn,vegetable oil,corn oil,and/or canola oil,and/or soybean oil,and/or sunflower oil,salt",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "Tostitos - Smooth & Cheesy Dip",
+    "brand": "Tostitos",
+    "url": "https://www.tostitos.com/products/tostitosr-smooth-cheesy-dip",
+    "allergens": [
+      "Dairy",
+      "Soy"
+    ],
+    "ingredients": "water,monterey jack cheese,milk,cheese cultures,salt,enzymes,vegetable oil,canola oil,and/or corn oil,and/or sunflower oil,modified corn starch,corn maltodextrin,whey protein concentrate,and less than 2% of:,salt,sugar,natural flavors,datem,yeast extract,paprika extract (color),annatto extract (color)",
+    "last_updated": "2026-05-25"
+  },
+  {
+    "name": "TWIX Caramel Full Size Candy",
+    "brand": "Twix",
+    "url": "https://www.twix.com/products/chocolate/twix-bar-bars",
+    "allergens": [
+      "Dairy",
+      "Soy",
+      "Wheat"
+    ],
+    "ingredients": "milk chocolate (sugar,cocoa butter,chocolate,skim milk,lactose,milkfat,soy lecithin,pgpr,artificial flavors),enriched wheat flour (wheat flour,niacin,reduced iron,thiamine mononitrate,riboflavin,folic acid),sugar,palm oil,corn syrup,skim milk,dextrose,less than 2% - salt,cocoa powder,soy lecithin,modified corn starch,baking soda,artificial flavor",
+    "last_updated": "2026-05-25"
+  }
+]

@@ -1,0 +1,672 @@
+---
+layout: default
+title: Snack Database
+description: "Search baby and toddler snacks by allergen, brand, or name. Filter out common allergens like dairy, soy, egg, wheat, and more."
+permalink: /snacks/
+---
+<div class="snackdb-header">
+  <h1>Snack Database 🍪</h1>
+  <p>Search and filter snacks by allergen, brand, or name. Click an allergen to exclude snacks containing it.</p>
+</div>
+
+<div class="snackdb-controls">
+  <!-- Allergen filter chips -->
+  <div class="snackdb-allergen-section">
+    <div class="snackdb-allergen-header">
+      <p class="snackdb-label">Exclude allergens <button id="allergen-toggle-all" class="snackdb-control-btn" type="button" aria-label="Toggle all allergens">All</button></p>
+    </div>
+    <div class="snackdb-allergens" id="allergen-filters" role="group" aria-label="Allergen filters">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Search + sort row -->
+  <div class="snackdb-search-row">
+    <div class="snackdb-search-wrap">
+      <svg class="snackdb-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        type="search"
+        id="snackdb-search"
+        class="snackdb-search-input"
+        placeholder="Search by name or brand…"
+        autocomplete="off"
+        aria-label="Search snacks by name or brand"
+      >
+    </div>
+    <div class="snackdb-sort-wrap">
+      <label for="snackdb-sort" class="snackdb-label snackdb-label--inline">Sort by</label>
+      <select id="snackdb-sort" class="snackdb-select" aria-label="Sort snacks">
+        <option value="name-asc">Name (A–Z)</option>
+        <option value="name-desc">Name (Z–A)</option>
+        <option value="brand-asc">Brand (A–Z)</option>
+        <option value="allergens-asc">Fewest allergens first</option>
+        <option value="allergens-desc">Most allergens first</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Results summary -->
+<p class="snackdb-count" id="snackdb-count" aria-live="polite"></p>
+
+<!-- Table -->
+<div class="snackdb-table-wrap" role="region" aria-label="Snack results" tabindex="0">
+  <table class="snackdb-table" id="snackdb-table">
+    <thead>
+      <tr>
+        <th scope="col" class="snackdb-th snackdb-th--name">
+          <button class="snackdb-sort-btn" data-sort="name" aria-label="Sort by name">
+            Name <span class="snackdb-sort-arrow" aria-hidden="true"></span>
+          </button>
+        </th>
+        <th scope="col" class="snackdb-th snackdb-th--brand">
+          <button class="snackdb-sort-btn" data-sort="brand" aria-label="Sort by brand">
+            Brand <span class="snackdb-sort-arrow" aria-hidden="true"></span>
+          </button>
+        </th>
+        <th scope="col" class="snackdb-th snackdb-th--allergens">Allergens</th>
+        <th scope="col" class="snackdb-th snackdb-th--ingredients">Ingredients</th>
+      </tr>
+    </thead>
+    <tbody id="snackdb-tbody">
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+  <p class="snackdb-empty" id="snackdb-empty" hidden>No snacks match your filters. Try adjusting your search or removing some allergen exclusions.</p>
+</div>
+
+<p class="snackdb-updated" id="snackdb-updated"></p>
+
+<style>
+/* ── Snack Database page styles ── */
+.snackdb-header {
+  max-width: var(--content-max);
+  margin: 0 auto 20px;
+}
+
+.snackdb-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  line-height: 1.1;
+  margin: 8px 0 10px;
+}
+
+.snackdb-header p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 58ch;
+}
+
+.snackdb-controls {
+  max-width: var(--content-max);
+  margin: 0 auto 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.snackdb-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8d8477;
+  margin: 0 0 8px;
+}
+
+.snackdb-label--inline {
+  margin: 0;
+  align-self: center;
+  white-space: nowrap;
+}
+
+.snackdb-allergen-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.snackdb-allergen-header {
+  margin-bottom: 8px;
+}
+
+.snackdb-allergen-header .snackdb-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.snackdb-control-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5b5347;
+  background: #f8f5ee;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  outline: 0;
+  white-space: nowrap;
+}
+
+.snackdb-control-btn:hover {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.snackdb-control-btn:active {
+  background: color-mix(in srgb, var(--accent) 25%, white);
+}
+
+.snackdb-allergens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.allergen-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.84rem;
+  color: #5b5347;
+  background: #f8f5ee;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.allergen-chip:hover {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  color: var(--accent);
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+
+.allergen-chip[aria-pressed="true"] {
+  background: #fde8e8;
+  border-color: #e08080;
+  color: #b83232;
+}
+
+.allergen-chip[aria-pressed="true"]:hover {
+  background: #fdd5d5;
+  border-color: #c06060;
+}
+
+.allergen-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  display: none;
+}
+
+.allergen-chip[aria-pressed="true"] .allergen-chip__dot {
+  display: block;
+}
+
+.snackdb-search-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.snackdb-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 260px;
+  background: #fbf9f4;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.snackdb-search-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, white);
+  background: #ffffff;
+}
+
+.snackdb-search-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+
+.snackdb-search-input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  background: transparent;
+  font: inherit;
+  color: var(--text);
+}
+
+.snackdb-search-input::placeholder {
+  color: #8c8478;
+}
+
+.snackdb-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.snackdb-select {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.84rem;
+  color: #5b5347;
+  background: #f8f5ee;
+  cursor: pointer;
+  outline: 0;
+  transition: border-color 0.2s ease;
+}
+
+.snackdb-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, white);
+}
+
+.snackdb-count {
+  max-width: var(--content-max);
+  margin: 0 auto 10px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.snackdb-table-wrap {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  overflow-x: auto;
+  background: var(--card);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+}
+
+.snackdb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.snackdb-th {
+  padding: 11px 14px;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6f685c;
+  background: #f7f4ed;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.snackdb-th--name   { width: 30%; min-width: 160px; }
+.snackdb-th--brand  { width: 14%; min-width: 90px; }
+.snackdb-th--allergens { width: 22%; min-width: 140px; }
+.snackdb-th--ingredients { width: 34%; min-width: 180px; }
+
+.snackdb-sort-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6f685c;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.snackdb-sort-btn:hover { color: var(--accent); }
+
+.snackdb-sort-arrow::after { content: '↕'; font-size: 0.75em; }
+.snackdb-sort-btn[aria-sort="ascending"]  .snackdb-sort-arrow::after { content: '↑'; }
+.snackdb-sort-btn[aria-sort="descending"] .snackdb-sort-arrow::after { content: '↓'; }
+
+.snackdb-row {
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
+}
+
+.snackdb-row:last-child { border-bottom: 0; }
+.snackdb-row:hover { background: #faf8f3; }
+
+.snackdb-td {
+  padding: 12px 14px;
+  vertical-align: top;
+  color: var(--text);
+}
+
+.snackdb-name {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.snackdb-name a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  text-underline-offset: 0.1em;
+}
+
+.snackdb-name a:hover {
+  color: var(--accent);
+}
+
+.snackdb-brand {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.snackdb-allergen-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  border-radius: 999px;
+  padding: 3px 8px;
+  margin: 2px 2px 2px 0;
+  background: #fde8e8;
+  border: 1px solid #e8bebe;
+  color: #a83232;
+  white-space: nowrap;
+}
+
+.snackdb-no-allergens {
+  font-size: 0.84rem;
+  color: #5b9470;
+  font-style: italic;
+}
+
+.snackdb-ingredients-cell {
+  font-size: 0.82rem;
+  color: #6a6259;
+  line-height: 1.45;
+}
+
+.snackdb-ingredients-cell details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.82rem;
+  list-style: none;
+}
+
+.snackdb-ingredients-cell details summary::-webkit-details-marker { display: none; }
+
+.snackdb-ingredients-cell details summary::after {
+  content: ' ▼';
+  font-size: 0.65em;
+}
+
+.snackdb-ingredients-cell details[open] summary::after {
+  content: ' ▲';
+}
+
+.snackdb-ingredients-text {
+  margin-top: 6px;
+  word-break: break-word;
+}
+
+.snackdb-empty {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.snackdb-updated {
+  max-width: var(--content-max);
+  margin: 14px auto 0;
+  font-size: 0.78rem;
+  color: #a09890;
+}
+
+@media (max-width: 640px) {
+  .snackdb-th--ingredients { display: none; }
+  .snackdb-td:nth-child(4) { display: none; }
+
+  .snackdb-sort-wrap {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  const ALLERGEN_ORDER = ['Dairy','Soy','Egg','Wheat','Tree nuts','Peanut','Shellfish','Fish','Sesame'];
+
+  let allSnacks = [];
+  let excludedAllergens = new Set();
+  let currentSort = { key: 'name', dir: 'asc' };
+  let searchQuery = '';
+
+  fetch('{{ "/assets/data/snacks.json" | relative_url }}')
+    .then(r => r.json())
+    .then(data => {
+      allSnacks = data;
+      initAllergenChips(data);
+      render();
+      updateLastUpdated(data);
+    })
+    .catch(() => {
+      document.getElementById('snackdb-count').textContent = 'Failed to load snack data.';
+    });
+
+  // ── allergen chips ──────────────────────────────────────────────────────
+  function initAllergenChips(data) {
+    const present = new Set(data.flatMap(s => s.allergens));
+    const ordered = ALLERGEN_ORDER.filter(a => present.has(a));
+    const container = document.getElementById('allergen-filters');
+
+    ordered.forEach(allergen => {
+      const btn = document.createElement('button');
+      btn.className = 'allergen-chip';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('data-allergen', allergen);
+      btn.innerHTML = `<span class="allergen-chip__dot" aria-hidden="true"></span>${allergen}`;
+      btn.addEventListener('click', () => toggleAllergen(allergen, btn));
+      container.appendChild(btn);
+    });
+
+    // Setup toggle all button
+    setupAllergenToggleAll();
+  }
+
+  function setupAllergenToggleAll() {
+    const toggleAllBtn = document.getElementById('allergen-toggle-all');
+    const allAllergens = Array.from(document.querySelectorAll('.allergen-chip')).map(chip => chip.getAttribute('data-allergen'));
+
+    toggleAllBtn.addEventListener('click', () => {
+      if (excludedAllergens.size === allAllergens.length) {
+        // All selected, so deselect all
+        excludedAllergens.clear();
+        document.querySelectorAll('.allergen-chip').forEach(chip => {
+          chip.setAttribute('aria-pressed', 'false');
+        });
+      } else {
+        // Not all selected, so select all
+        allAllergens.forEach(allergen => {
+          excludedAllergens.add(allergen);
+        });
+        document.querySelectorAll('.allergen-chip').forEach(chip => {
+          chip.setAttribute('aria-pressed', 'true');
+        });
+      }
+      render();
+    });
+  }
+
+  function toggleAllergen(allergen, btn) {
+    if (excludedAllergens.has(allergen)) {
+      excludedAllergens.delete(allergen);
+      btn.setAttribute('aria-pressed', 'false');
+    } else {
+      excludedAllergens.add(allergen);
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    render();
+  }
+
+  // ── search ──────────────────────────────────────────────────────────────
+  document.getElementById('snackdb-search').addEventListener('input', function () {
+    searchQuery = this.value.trim().toLowerCase();
+    render();
+  });
+
+  // ── sort select ─────────────────────────────────────────────────────────
+  document.getElementById('snackdb-sort').addEventListener('change', function () {
+    const [key, dir] = this.value.split('-');
+    currentSort = { key, dir };
+    updateColumnSortArrows(null);
+    render();
+  });
+
+  // ── column sort buttons ─────────────────────────────────────────────────
+  document.querySelectorAll('.snackdb-sort-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const key = this.dataset.sort;
+      const dir = (currentSort.key === key && currentSort.dir === 'asc') ? 'desc' : 'asc';
+      currentSort = { key, dir };
+      document.getElementById('snackdb-sort').value = `${key}-${dir}`;
+      updateColumnSortArrows(key, dir);
+      render();
+    });
+  });
+
+  function updateColumnSortArrows(activeKey, dir) {
+    document.querySelectorAll('.snackdb-sort-btn').forEach(btn => {
+      if (btn.dataset.sort === activeKey) {
+        btn.setAttribute('aria-sort', dir === 'asc' ? 'ascending' : 'descending');
+      } else {
+        btn.removeAttribute('aria-sort');
+      }
+    });
+  }
+
+  // ── filter + sort + render ──────────────────────────────────────────────
+  function getFiltered() {
+    return allSnacks.filter(snack => {
+      // allergen exclusion
+      if (excludedAllergens.size > 0) {
+        for (const excl of excludedAllergens) {
+          if (snack.allergens.includes(excl)) return false;
+        }
+      }
+      // text search
+      if (searchQuery) {
+        const haystack = (snack.name + ' ' + snack.brand).toLowerCase();
+        if (!haystack.includes(searchQuery)) return false;
+      }
+      return true;
+    });
+  }
+
+  function getSorted(list) {
+    return [...list].sort((a, b) => {
+      let va, vb;
+      if (currentSort.key === 'allergens') {
+        va = a.allergens.length;
+        vb = b.allergens.length;
+      } else {
+        va = (a[currentSort.key] || '').toLowerCase();
+        vb = (b[currentSort.key] || '').toLowerCase();
+      }
+      if (va < vb) return currentSort.dir === 'asc' ? -1 : 1;
+      if (va > vb) return currentSort.dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  function render() {
+    const filtered = getSorted(getFiltered());
+    const tbody = document.getElementById('snackdb-tbody');
+    const empty = document.getElementById('snackdb-empty');
+    const count = document.getElementById('snackdb-count');
+
+    // count
+    const total = allSnacks.length;
+    count.textContent = filtered.length === total
+      ? `Showing all ${total} snacks`
+      : `Showing ${filtered.length} of ${total} snacks`;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      empty.hidden = false;
+      return;
+    }
+
+    empty.hidden = true;
+    tbody.innerHTML = filtered.map(snack => {
+      const snackNameHtml = snack.url
+        ? `<a href="${escAttr(snack.url)}" target="_blank" rel="noopener">${escHtml(snack.name)}</a>`
+        : escHtml(snack.name);
+
+      const allergenTags = snack.allergens.length > 0
+        ? snack.allergens.map(a => `<span class="snackdb-allergen-tag">${escHtml(a)}</span>`).join('')
+        : `<span class="snackdb-no-allergens">None detected</span>`;
+
+      const ingredientLines = snack.ingredients || '';
+      const shortIngredients = ingredientLines.length > 80
+        ? `<details><summary>${escHtml(ingredientLines.slice(0, 60))}…</summary><p class="snackdb-ingredients-text">${escHtml(ingredientLines)}</p></details>`
+        : `<span class="snackdb-ingredients-text">${escHtml(ingredientLines)}</span>`;
+
+      return `<tr class="snackdb-row">
+        <td class="snackdb-td snackdb-name">${snackNameHtml}</td>
+        <td class="snackdb-td snackdb-brand">${escHtml(snack.brand)}</td>
+        <td class="snackdb-td">${allergenTags}</td>
+        <td class="snackdb-td snackdb-ingredients-cell">${shortIngredients}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function escAttr(str) {
+    return escHtml(str).replace(/'/g, '&#39;');
+  }
+
+  function updateLastUpdated(data) {
+    const dates = data.map(s => s.last_updated).filter(Boolean).sort();
+    if (dates.length) {
+      document.getElementById('snackdb-updated').textContent =
+        `Database last updated: ${dates[dates.length - 1]}`;
+    }
+  }
+})();
+</script>

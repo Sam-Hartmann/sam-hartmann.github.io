@@ -1,1 +1,8 @@
+.*
+**/__pycache__
+
+# Dev
 _site/\n_site_dev/\n.jekyll-cache/
+_site_dev
+
+
