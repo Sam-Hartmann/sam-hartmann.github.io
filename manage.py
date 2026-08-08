@@ -16,10 +16,13 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import html
+import json
 import re
 import subprocess
 import sys
 import tempfile
+import unicodedata
 from datetime import date
 from pathlib import Path
 
@@ -59,6 +62,8 @@ read_time: {read_time}
 
 def slugify(text: str) -> str:
     """Convert a string to a URL/filename-safe slug."""
+    text = unicodedata.normalize("NFKD", text)
+    text = text.encode("ascii", "ignore").decode("ascii")
     text = text.lower().strip()
     text = re.sub(r"[^\w\s-]", "", text)
     text = re.sub(r"[\s_]+", "-", text)
@@ -69,6 +74,206 @@ def slugify(text: str) -> str:
 def yaml_escape(value: str) -> str:
     """Escape text so it can be safely placed inside YAML quotes."""
     return value.replace('"', '\\"').strip()
+
+
+def _snack_slug(brand: str, name: str, used_slugs: set[str]) -> str:
+    """Build a stable, unique slug for a snack detail page."""
+    brand_norm = re.sub(r"[^a-z0-9]", "", (brand or "").lower())
+    name_norm = re.sub(r"[^a-z0-9]", "", (name or "").lower())
+    if brand_norm and name_norm.startswith(brand_norm):
+        slug_source = name
+    else:
+        slug_source = f"{brand} {name}".strip()
+
+    base = slugify(slug_source) or slugify(name) or "snack"
+    slug = base
+    idx = 2
+    while slug in used_slugs:
+        slug = f"{base}-{idx}"
+        idx += 1
+    used_slugs.add(slug)
+    return slug
+
+
+def _split_top_level_commas(text: str) -> list[str]:
+    """Split comma-separated ingredients while preserving parenthetical groups."""
+    if not text:
+        return []
+
+    parts: list[str] = []
+    buffer = ""
+    depth = 0
+
+    for token in text.split(","):
+        chunk = token.strip()
+        if not chunk:
+            continue
+
+        buffer = f"{buffer}, {chunk}" if buffer else chunk
+        depth += chunk.count("(") - chunk.count(")")
+        if depth <= 0:
+            parts.append(buffer.strip())
+            buffer = ""
+            depth = 0
+
+    if buffer:
+        parts.append(buffer.strip())
+    return parts
+
+
+def _split_ingredients_and_sub_ingredients(ingredients_label: str) -> list[dict[str, object]]:
+    """Split ingredients label into ingredients and optional sub-ingredients."""
+    ingredient_parts = _split_top_level_commas(ingredients_label)
+    parsed: list[dict[str, object]] = []
+
+    for part in ingredient_parts:
+        if "(" not in part or ")" not in part:
+            parsed.append({"ingredient": part, "sub_ingredients": []})
+            continue
+
+        before, _, after_open = part.partition("(")
+        inside, _, after_close = after_open.rpartition(")")
+        ingredient = " ".join(f"{before.strip()} {after_close.strip()}".split()).strip(", ")
+        sub_ingredients = [sub.strip() for sub in inside.split(",") if sub.strip()]
+
+        parsed.append(
+            {
+                "ingredient": ingredient or part,
+                "sub_ingredients": sub_ingredients,
+            }
+        )
+
+    return parsed
+
+
+def _build_snack_detail_page(snack: dict, slug: str) -> str:
+    """Render one snack detail page with breadcrumb + structured data."""
+    name = snack.get("name", "")
+    brand = snack.get("brand", "")
+    url = snack.get("url", "")
+    allergens = snack.get("allergens", [])
+    ingredients = snack.get("ingredients", "")
+    last_updated = snack.get("last_updated", "")
+
+    title_bits = [name]
+    if brand:
+        title_bits.append(brand)
+    page_title = " - ".join(title_bits)
+
+    allergens_html = "".join(
+        f'<li class="snack-meta__chip">{html.escape(allergen)}</li>'
+        for allergen in allergens
+    ) or '<li class="snack-meta__chip snack-meta__chip--none">None detected</li>'
+
+    source_html = (
+        f'<a href="{html.escape(url)}" rel="noopener" target="_blank">View source product page</a>'
+        if url
+        else "No source URL available"
+    )
+
+    ingredient_rows = _split_ingredients_and_sub_ingredients(ingredients)
+    if ingredient_rows:
+        rendered_rows: list[str] = []
+        for row in ingredient_rows:
+            ingredient = str(row["ingredient"])
+            sub_ingredients = [str(sub) for sub in row["sub_ingredients"]]
+            if sub_ingredients:
+                subs_str = ", ".join(html.escape(sub) for sub in sub_ingredients)
+                rendered_rows.append(f"<li>{html.escape(ingredient)} ({subs_str})</li>")
+            else:
+                rendered_rows.append(f"<li>{html.escape(ingredient)}</li>")
+
+        ingredients_html = "<ul class=\"snack-page__ingredients\">" + "".join(rendered_rows) + "</ul>"
+    else:
+        ingredients_html = "<p>Not available</p>"
+
+    schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://sam-hartmann.github.io/",
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Snack Database",
+                        "item": "https://sam-hartmann.github.io/snacks/",
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": name,
+                        "item": f"https://sam-hartmann.github.io/snacks/{slug}/",
+                    },
+                ],
+            },
+            {
+                "@type": "Product",
+                "name": name,
+                "brand": brand,
+                "url": f"https://sam-hartmann.github.io/snacks/{slug}/",
+                "category": "Baby and toddler snack",
+                "description": ingredients,
+            },
+        ],
+    }
+
+    return f"""---
+layout: default
+title: \"{yaml_escape(page_title)}\"
+description: \"Allergen and ingredient details for {yaml_escape(name)}.\"
+permalink: /snacks/{slug}/
+---
+<script type=\"application/ld+json\">{json.dumps(schema, ensure_ascii=False)}</script>
+
+<article class=\"snack-page\">
+    <header>
+        <h1>{html.escape(name)}</h1>
+        <p class=\"snack-page__brand\">Brand: {html.escape(brand) if brand else 'Unspecified'}</p>
+    </header>
+
+    <section>
+        <h2>Allergens</h2>
+        <ul class=\"snack-meta__chips\">{allergens_html}</ul>
+    </section>
+
+    <section>
+        <h2>Ingredients</h2>
+        {ingredients_html}
+    </section>
+
+    <section>
+        <h2>Source</h2>
+        <p>{source_html}</p>
+    </section>
+
+    <footer>
+        <p class=\"snack-page__updated\">Last updated: {html.escape(last_updated) if last_updated else 'Unknown'}</p>
+    </footer>
+</article>
+"""
+
+
+def _write_snack_detail_pages(snacks_out: list[dict]) -> None:
+    """Generate one static HTML page per snack under snacks/items/."""
+    pages_dir = WEBSITE_DIR / "snacks" / "items"
+    pages_dir.mkdir(parents=True, exist_ok=True)
+
+    for old_page in pages_dir.glob("*.html"):
+        old_page.unlink()
+
+    used_slugs: set[str] = set()
+    for snack in snacks_out:
+        slug = _snack_slug(snack.get("brand", ""), snack.get("name", ""), used_slugs)
+        snack["slug"] = slug
+        page_path = pages_dir / f"{slug}.html"
+        page_path.write_text(_build_snack_detail_page(snack, slug))
 
 
 def get_sections() -> list[dict]:
@@ -357,7 +562,6 @@ def cmd_new_post(args) -> None:
 
 def cmd_export_snacks(_args) -> None:
     """Export snack database to assets/data/snacks.json for the website."""
-    import json
     import os
     import sys
 
@@ -397,11 +601,14 @@ def cmd_export_snacks(_args) -> None:
     finally:
         os.chdir(prev_dir)
 
+    _write_snack_detail_pages(snacks_out)
+
     out_dir = WEBSITE_DIR / "assets" / "data"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "snacks.json"
-    out_path.write_text(json.dumps(snacks_out, indent=2))
+    out_path.write_text(json.dumps(snacks_out, indent=2, ensure_ascii=False))
     print(f"Exported {len(snacks_out)} snacks → {out_path.relative_to(WEBSITE_DIR)}")
+    print("Generated static snack detail pages → snacks/items/")
 
 
 def _refresh_snacks_data_if_available(_args) -> None:

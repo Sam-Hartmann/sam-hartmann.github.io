@@ -1,0 +1,55 @@
+{% assign breadcrumbs_enabled = page.breadcrumbs %}
+{% if breadcrumbs_enabled == nil %}
+  {% assign breadcrumbs_enabled = true %}
+{% endif %}
+
+{% if breadcrumbs_enabled and page.url != '/' %}
+<nav class="site-breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+
+    {% if page.layout == 'post' %}
+      {% assign section_id = page.categories | first %}
+      {% if section_id %}
+        {% assign section_title = section_id | replace: '-', ' ' | capitalize %}
+        {% for section in site.sections %}
+          {% if section.id == section_id %}
+            {% assign section_title = section.title %}
+          {% endif %}
+        {% endfor %}
+        <li><a href="{{ '/' | append: section_id | append: '/' | relative_url }}">{{ section_title }}</a></li>
+      {% endif %}
+      <li aria-current="page">{{ page.title }}</li>
+    {% else %}
+      {% assign path_segments = page.url | split: '/' %}
+      {% assign cumulative_url = '' %}
+      {% for segment in path_segments %}
+        {% if segment != '' %}
+          {% assign cumulative_url = cumulative_url | append: '/' | append: segment %}
+          {% assign crumb_name = segment | replace: '-', ' ' | capitalize %}
+
+          {% if segment == 'snacks' %}
+            {% assign crumb_name = 'Snack Database' %}
+          {% else %}
+            {% for section in site.sections %}
+              {% if section.id == segment %}
+                {% assign crumb_name = section.title %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          {% if forloop.last and page.title and page.title != 'Home' %}
+            {% assign crumb_name = page.title %}
+          {% endif %}
+
+          {% if forloop.last %}
+            <li aria-current="page">{{ crumb_name }}</li>
+          {% else %}
+            <li><a href="{{ cumulative_url | append: '/' | relative_url }}">{{ crumb_name }}</a></li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ol>
+</nav>
+{% endif %}

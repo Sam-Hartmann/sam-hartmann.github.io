@@ -7,29 +7,60 @@ permalink: /snacks/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Baby & Toddler Snack Database",
-  "description": "Search and filter baby and toddler snacks by allergen, brand, or name. Filter out common allergens like dairy, soy, egg, wheat, and more.",
-  "url": "https://sam-hartmann.github.io/snacks/",
-  "applicationCategory": "HealthApplication",
-  "operatingSystem": "All",
-  "author": {
-    "@type": "Person",
-    "name": "Sam Hartmann"
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://sam-hartmann.github.io/snacks/?q={search_term_string}"
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Baby & Toddler Snack Database",
+      "description": "Search and filter baby and toddler snacks by allergen, brand, or name. Filter out common allergens like dairy, soy, egg, wheat, and more.",
+      "url": "https://sam-hartmann.github.io/snacks/",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "All",
+      "author": {
+        "@type": "Person",
+        "name": "Sam Hartmann"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://sam-hartmann.github.io/snacks/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
     },
-    "query-input": "required name=search_term_string"
-  }
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sam-hartmann.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Snack Database",
+          "item": "https://sam-hartmann.github.io/snacks/"
+        }
+      ]
+    },
+    {
+      "@type": "Dataset",
+      "name": "Baby and Toddler Snack Allergen Dataset",
+      "description": "Dataset of baby and toddler snacks with ingredient and allergen information.",
+      "url": "https://sam-hartmann.github.io/snacks/",
+      "creator": {
+        "@type": "Person",
+        "name": "Sam Hartmann"
+      }
+    }
+  ]
 }
 </script>
 <div class="snackdb-header">
@@ -384,6 +415,39 @@ permalink: /snacks/
 .snackdb-row:last-child { border-bottom: 0; }
 .snackdb-row:hover { background: #faf8f3; }
 
+.snackdb-row[data-href] { cursor: pointer; }
+
+.snackdb-row[data-href]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 55%, white);
+  outline-offset: -2px;
+}
+
+.snackdb-name-text {
+  font-weight: 600;
+  color: #2f2921;
+}
+
+.snackdb-brand-actions {
+  margin-top: 6px;
+}
+
+.snackdb-source-btn {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d8cfbf;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  color: #6a6154;
+  background: #f8f5ee;
+}
+
+.snackdb-source-btn:hover {
+  text-decoration: none;
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, #d8cfbf);
+}
+
 .snackdb-td {
   padding: 12px 14px;
   vertical-align: top;
@@ -491,6 +555,7 @@ permalink: /snacks/
   'use strict';
 
   const ALLERGEN_ORDER = ['Dairy','Soy','Egg','Wheat','Tree nuts','Peanut','Shellfish','Fish','Sesame'];
+  const SNACK_DETAIL_BASE = '{{ "/snacks/" | relative_url }}';
 
   let allSnacks = [];
   let excludedAllergens = new Set();
@@ -655,9 +720,13 @@ permalink: /snacks/
 
     empty.hidden = true;
     tbody.innerHTML = filtered.map(snack => {
-      const snackNameHtml = snack.url
-        ? `<a href="${escAttr(snack.url)}" target="_blank" rel="noopener">${escHtml(snack.name)}</a>`
-        : escHtml(snack.name);
+      const detailSlug = snack.slug || toSlug(`${snack.brand || ''} ${snack.name || ''}`);
+      const detailPath = `${SNACK_DETAIL_BASE}${escAttr(detailSlug)}/`;
+      const sourceLink = snack.url
+        ? `<a class="snackdb-source-btn" href="${escAttr(snack.url)}" target="_blank" rel="noopener">Source</a>`
+        : '';
+      const snackNameHtml = `<span class="snackdb-name-text">${escHtml(snack.name)}</span>`;
+      const brandCellHtml = `${escHtml(snack.brand)}${sourceLink ? `<div class="snackdb-brand-actions">${sourceLink}</div>` : ''}`;
 
       const allergenTags = snack.allergens.length > 0
         ? snack.allergens.map(a => `<span class="snackdb-allergen-tag">${escHtml(a)}</span>`).join('')
@@ -668,14 +737,31 @@ permalink: /snacks/
         ? `<details><summary>${escHtml(ingredientLines.slice(0, 60))}…</summary><p class="snackdb-ingredients-text">${escHtml(ingredientLines)}</p></details>`
         : `<span class="snackdb-ingredients-text">${escHtml(ingredientLines)}</span>`;
 
-      return `<tr class="snackdb-row">
+      return `<tr class="snackdb-row" data-href="${detailPath}" tabindex="0" role="link" aria-label="Open details for ${escAttr(snack.name)}">
         <td class="snackdb-td snackdb-name">${snackNameHtml}</td>
-        <td class="snackdb-td snackdb-brand">${escHtml(snack.brand)}</td>
+        <td class="snackdb-td snackdb-brand">${brandCellHtml}</td>
         <td class="snackdb-td">${allergenTags}</td>
         <td class="snackdb-td snackdb-ingredients-cell">${shortIngredients}</td>
       </tr>`;
     }).join('');
   }
+
+  const tbody = document.getElementById('snackdb-tbody');
+  tbody.addEventListener('click', function (event) {
+    const row = event.target.closest('.snackdb-row[data-href]');
+    if (!row) return;
+    if (event.target.closest('a,button,input,select,textarea,label,summary,details')) return;
+    window.location.href = row.dataset.href;
+  });
+
+  tbody.addEventListener('keydown', function (event) {
+    const row = event.target.closest('.snackdb-row[data-href]');
+    if (!row) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      window.location.href = row.dataset.href;
+    }
+  });
 
   function escHtml(str) {
     return String(str)
@@ -687,6 +773,15 @@ permalink: /snacks/
 
   function escAttr(str) {
     return escHtml(str).replace(/'/g, '&#39;');
+  }
+
+  function toSlug(str) {
+    return String(str || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_]+/g, '-')
+      .replace(/-+/g, '-') || 'snack';
   }
 
   function updateLastUpdated(data) {
