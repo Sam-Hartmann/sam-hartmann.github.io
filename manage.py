@@ -19,6 +19,7 @@ import contextlib
 import html
 import json
 import re
+from shutil import copy2
 import subprocess
 import sys
 import tempfile
@@ -30,6 +31,7 @@ WEBSITE_DIR = Path(__file__).parent
 CONFIG_FILE = WEBSITE_DIR / "_config.yml"
 DEV_CONFIG_FILE = WEBSITE_DIR / "_config_dev.yml"
 POSTS_DIR = WEBSITE_DIR / "_posts"
+SITE_BASE_URL = "https://sam-hartmann.github.io"
 
 SECTION_LAYOUT_TEMPLATE = """\
 ---
@@ -53,11 +55,13 @@ image: {image}
 excerpt: >
   {excerpt}
 read_time: {read_time}
-# medium_url: https://medium.com/@your-handle/your-post
+{medium_line}
 ---
 
 {content}
 """
+
+DEFAULT_MEDIUM_LINE = "# medium_url: https://medium.com/@your-handle/your-post"
 
 
 def slugify(text: str) -> str:
@@ -357,6 +361,110 @@ def _run_jekyll(command: list[str]) -> None:
     subprocess.run(command, cwd=WEBSITE_DIR, check=True)
 
 
+def create_post(
+    section_id: str,
+    title: str,
+    post_date: str,
+    tags: str,
+    image: str,
+    excerpt: str,
+    read_time: str,
+    content: str,
+    medium_line: str = DEFAULT_MEDIUM_LINE,
+    overwrite: bool = False,
+) -> Path:
+    """Write a Jekyll markdown post file and return its path.
+
+    Raises:
+        FileExistsError: If the file exists and overwrite is False.
+    """
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", post_date):
+        raise ValueError(f"Date must be YYYY-MM-DD format, got: {post_date}")
+
+    slug = slugify(title)
+    post_dir = POSTS_DIR / section_id
+    post_dir.mkdir(parents=True, exist_ok=True)
+    post_file = post_dir / f"{post_date}-{slug}.md"
+
+    if post_file.exists() and not overwrite:
+        raise FileExistsError(
+            f"Post already exists: {post_file.relative_to(WEBSITE_DIR)}\n"
+            "Pass overwrite=True to replace it."
+        )
+
+    image = (image or "").strip()
+    content = content or ""
+    resolved_image = _materialize_post_image(image, slug)
+    content = _ensure_image_reference_in_content(content, image, resolved_image)
+
+    post_file.write_text(
+        POST_TEMPLATE.format(
+            title=yaml_escape(title),
+            date=post_date,
+            section_id=section_id,
+            tags=tags,
+            image=resolved_image,
+            excerpt=yaml_escape(excerpt),
+            read_time=read_time,
+            medium_line=medium_line,
+            content=content,
+        )
+    )
+    return post_file
+
+
+def _materialize_post_image(image: str, slug: str) -> str:
+    """Copy a local image file into website assets and return site-relative path."""
+    if not image:
+        return ""
+    if image.startswith("/assets/images/"):
+        return image
+    if re.match(r"^https?://", image, re.IGNORECASE):
+        return image
+
+    source_path = _resolve_local_image_path(image)
+    if not source_path or not source_path.exists() or not source_path.is_file():
+        return image
+
+    ext = source_path.suffix.lower() or ".png"
+    image_dir = WEBSITE_DIR / "assets" / "images" / slug
+    image_dir.mkdir(parents=True, exist_ok=True)
+    target_path = image_dir / f"hero{ext}"
+    copy2(source_path, target_path)
+
+    return f"/assets/images/{slug}/{target_path.name}"
+
+
+def _resolve_local_image_path(image: str) -> Path | None:
+    """Resolve an image path from absolute, cwd-relative, or site-relative input."""
+    candidate = Path(image).expanduser()
+    if candidate.exists():
+        return candidate
+
+    site_relative = WEBSITE_DIR / image
+    if site_relative.exists():
+        return site_relative
+    return None
+
+
+def _ensure_image_reference_in_content(content: str, original_image: str, resolved_image: str) -> str:
+    """Rewrite existing image refs and ensure at least one markdown hero reference exists."""
+    if not resolved_image:
+        return content
+
+    updated = content
+    if original_image and original_image != resolved_image:
+        updated = updated.replace(original_image, resolved_image)
+
+    if resolved_image in updated:
+        return updated
+
+    hero_ref = f"![Hero image]({resolved_image})"
+    if not updated.strip():
+        return hero_ref
+    return f"{hero_ref}\n\n{updated}"
+
+
 def find_section_id(section_input: str, sections: list[dict]) -> str:
     """Resolve a section from id or title-like input."""
     section_input = section_input.strip()
@@ -531,29 +639,26 @@ def cmd_new_post(args) -> None:
         content = f"{content}\n\n" + "\n\n".join(image_blocks)
 
     slug = slugify(title)
-    filename = f"{post_date}-{slug}.md"
-
-    post_dir = POSTS_DIR / section_id
-    post_dir.mkdir(parents=True, exist_ok=True)
-    post_file = post_dir / filename
-
+    post_file = POSTS_DIR / section_id / f"{post_date}-{slug}.md"
     if post_file.exists() and not bool(getattr(args, "overwrite", False)):
-        overwrite = input(f"{post_file} already exists. Overwrite? [y/N]: ").strip().lower()
-        if overwrite != "y":
+        overwrite_confirmed = input(f"{post_file} already exists. Overwrite? [y/N]: ").strip().lower()
+        if overwrite_confirmed != "y":
             print("Aborted.")
             sys.exit(0)
+        do_overwrite = True
+    else:
+        do_overwrite = bool(getattr(args, "overwrite", False))
 
-    post_file.write_text(
-        POST_TEMPLATE.format(
-            title=yaml_escape(title),
-            date=post_date,
-            section_id=section_id,
-            tags=tags,
-            image=hero_image,
-            excerpt=yaml_escape(subtitle or title),
-            read_time=read_time,
-            content=content,
-        )
+    post_file = create_post(
+        section_id=section_id,
+        title=title,
+        post_date=post_date,
+        tags=tags,
+        image=hero_image,
+        excerpt=subtitle or title,
+        read_time=read_time,
+        content=content,
+        overwrite=do_overwrite,
     )
 
     print(f"\nPost created: {post_file.relative_to(WEBSITE_DIR)}")
@@ -641,6 +746,37 @@ def _snacks_data(_args):
             data_path.unlink()
 
 
+def get_post_url(section: str, title: str, post_date: str) -> str:
+    """Compute the public URL a Jekyll post will have once published.
+
+    Jekyll URL format: /section/YYYY/MM/DD/slug.html
+    """
+    date_parts = post_date.split("-")
+    return f"{SITE_BASE_URL}/{section}/{date_parts[0]}/{date_parts[1]}/{date_parts[2]}/{slugify(title)}.html"
+
+
+def build_website(dev: bool = False) -> None:
+    """Build the Jekyll site, mirroring the `build-dev` / production CLI commands.
+
+    Args:
+        dev: When True, build with _config_dev.yml overrides into _site_dev/.
+             When False, build with the production config in-place (like `bundle exec jekyll build`).
+    """
+    if dev:
+        if not DEV_CONFIG_FILE.exists():
+            raise FileNotFoundError("Missing _config_dev.yml")
+        destination = WEBSITE_DIR / "_site_dev"
+        print(f"Building DEV site into {destination}...")
+        _run_jekyll([
+            "bundle", "exec", "jekyll", "build",
+            "--config", "_config.yml,_config_dev.yml",
+            "--destination", str(destination),
+        ])
+    else:
+        _run_jekyll(["bundle", "exec", "jekyll", "build", "--config", "_config.yml"])
+    print("✅ Website built")
+
+
 def cmd_serve_dev(_args) -> None:
     """Serve the website using development config overrides in a temp output dir."""
     if not DEV_CONFIG_FILE.exists():
@@ -664,23 +800,8 @@ def cmd_serve_dev(_args) -> None:
 
 def cmd_build_dev(_args) -> None:
     """Build the website using development config overrides into _site_dev/."""
-    if not DEV_CONFIG_FILE.exists():
-        print("Missing _config_dev.yml. Create it first.")
-        sys.exit(1)
-
-    destination = WEBSITE_DIR / "_site_dev"
     with _snacks_data(_args):
-        print(f"Building DEV site into {destination}...")
-        _run_jekyll([
-            "bundle",
-            "exec",
-            "jekyll",
-            "build",
-            "--config",
-            "_config.yml,_config_dev.yml",
-            "--destination",
-            str(destination),
-        ])
+        build_website(dev=True)
     print("Done. Open _site_dev/index.html or serve from _site_dev/.")
 
 

@@ -26,10 +26,6 @@ layout: default
       <span class="post-read-time">· {{ page.read_time }} min read</span>
       {% endif %}
     </div>
-
-    {% if page.excerpt and page.show_excerpt != false %}
-    <p class="post-excerpt">{{ page.excerpt | strip_html }}</p>
-    {% endif %}
   </header>
 
   <div class="post-content">

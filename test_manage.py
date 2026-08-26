@@ -163,3 +163,52 @@ def test_dev_commands_require_dev_config(monkeypatch, manage_module, isolated_si
     with pytest.raises(SystemExit) as exc_serve:
         manage_module.cmd_serve_dev(argparse.Namespace())
     assert exc_serve.value.code == 1
+
+
+def test_create_post_copies_local_image_and_adds_markdown_reference(manage_module, isolated_site, tmp_path):
+    source_image = tmp_path / "source-hero.png"
+    source_image.write_bytes(b"fake-image-bytes")
+
+    post_file = manage_module.create_post(
+        section_id="parenting",
+        title="My First Story",
+        post_date="2026-07-12",
+        tags="tips, baby",
+        image=str(source_image),
+        excerpt="Short excerpt",
+        read_time="6",
+        content="Hello story body.",
+        overwrite=False,
+    )
+
+    slug = manage_module.slugify("My First Story")
+    copied_image = isolated_site / "assets" / "images" / slug / "hero.png"
+    text = post_file.read_text()
+
+    assert copied_image.exists()
+    assert f"image: /assets/images/{slug}/hero.png" in text
+    assert f"![Hero image](/assets/images/{slug}/hero.png)" in text
+
+
+def test_create_post_rewrites_existing_image_reference(manage_module, isolated_site, tmp_path):
+    source_image = tmp_path / "source-hero.png"
+    source_image.write_bytes(b"fake-image-bytes")
+    source_str = str(source_image)
+
+    post_file = manage_module.create_post(
+        section_id="parenting",
+        title="Rewrite Image Ref",
+        post_date="2026-07-12",
+        tags="tips",
+        image=source_str,
+        excerpt="Short excerpt",
+        read_time="4",
+        content=f"![Hero]({source_str})\n\nBody text",
+        overwrite=False,
+    )
+
+    slug = manage_module.slugify("Rewrite Image Ref")
+    text = post_file.read_text()
+
+    assert source_str not in text
+    assert f"![Hero](/assets/images/{slug}/hero.png)" in text
