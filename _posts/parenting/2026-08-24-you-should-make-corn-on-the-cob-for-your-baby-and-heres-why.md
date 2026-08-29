@@ -8,7 +8,7 @@ image: /assets/images/you-should-make-corn-on-the-cob-for-your-baby-and-here’s
 excerpt: >
   Corn on the cob is easy for baby to grab, delicious, and keeps them busy without causing a mess.
 read_time: 2
-# medium_url: https://medium.com/@your-handle/your-post
+medium_url: https://medium.com/@hartmannsam/you-should-make-corn-on-the-cob-for-your-baby-and-heres-why-bc54ad39e28c?postPublishedType=initial
 ---
 
 <img src='/assets/images/you-should-make-corn-on-the-cob-for-your-baby-and-here’s -why/hero.png' alt="" />
