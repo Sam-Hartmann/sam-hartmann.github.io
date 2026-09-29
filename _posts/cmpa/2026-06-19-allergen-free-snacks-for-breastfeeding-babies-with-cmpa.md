@@ -53,7 +53,7 @@ That means you should go to the section without any of the allergens you are eli
 - Once Again Gluten-Free Graham Crackers with Dark Chocolate — contains no common allergens
 
 
-These are some of the snacks we found really helped. There are for sure more but this might help get you started without having to spend hours in the grocery store reading ingredients lists.
+These are some of the snacks we found really helped. You can find more in my interactive tracker [here](https://sam-hartmann.github.io/snacks/). There are for sure more but this might help get you started without having to spend hours in the grocery store reading ingredients lists.
 
 And remember, this is a phase. You are doing amazingly. You got this!
 
