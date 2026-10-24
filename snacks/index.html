@@ -130,13 +130,21 @@ permalink: /snacks/
       </tr>
     </thead>
     <tbody id="snackdb-tbody">
-      <!-- Populated by JS -->
+      {% assign snack_pages = site.pages | where_exp: "item", "item.path contains 'snacks/items/'" | sort: "title" %}
+      {% for snack_page in snack_pages %}
+      <tr class="snackdb-row snackdb-row--static" data-href="{{ snack_page.url | relative_url }}" tabindex="0" role="link" aria-label="Open details for {{ snack_page.title | escape }}">
+        <td class="snackdb-td snackdb-name"><a href="{{ snack_page.url | relative_url }}"><span class="snackdb-name-text">{{ snack_page.title | escape }}</span></a></td>
+        <td class="snackdb-td snackdb-brand">See details</td>
+        <td class="snackdb-td">See details</td>
+        <td class="snackdb-td snackdb-ingredients-cell">{{ snack_page.description | escape }}</td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
   <p class="snackdb-empty" id="snackdb-empty" hidden>No snacks match your filters. Try adjusting your search or removing some allergen exclusions.</p>
 </div>
 
-<p class="snackdb-updated" id="snackdb-updated"></p>
+<p class="snackdb-updated" id="snackdb-updated">Snack details are available without JavaScript; filters and sorting are enhanced after the page loads.</p>
 
 <style>
 /* ── Snack Database page styles ── */
@@ -562,8 +570,13 @@ permalink: /snacks/
   let currentSort = { key: 'name', dir: 'asc' };
   let searchQuery = '';
 
+  // The table above is rendered by Jekyll, so snack links and names are present
+  // for crawlers and users before JavaScript or the data request completes.
   fetch('{{ "/assets/data/snacks.json" | relative_url }}')
-    .then(r => r.json())
+    .then(r => {
+      if (!r.ok) throw new Error(`Snack data request failed: ${r.status}`);
+      return r.json();
+    })
     .then(data => {
       allSnacks = data;
       initAllergenChips(data);
@@ -571,7 +584,9 @@ permalink: /snacks/
       updateLastUpdated(data);
     })
     .catch(() => {
-      document.getElementById('snackdb-count').textContent = 'Failed to load snack data.';
+      // Keep the server-rendered fallback table usable if JavaScript or the
+      // optional enhancement data is unavailable.
+      document.getElementById('snackdb-count').textContent = 'Showing snack details (filters are unavailable right now).';
     });
 
   // ── allergen chips ──────────────────────────────────────────────────────
