@@ -54,7 +54,10 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-sitemap
+  # - jekyll-sitemap
+
+include:
+  - sitemap_main.xml
 
 exclude:
   - Gemfile
