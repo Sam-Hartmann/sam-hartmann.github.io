@@ -1,0 +1,12 @@
+---
+layout: null
+permalink: /directory.txt
+---
+{%- for page in site.pages -%}
+  {%- if page.url != '/404.html' and page.url != '/directory.txt' and page.url != '/sitemap.xml' and page.url != '/robots.txt' %}
+{{ site.url }}{{ page.url | replace: "index.html", "" }}
+  {%- endif -%}
+{%- endfor -%}
+{%- for post in site.posts %}
+{{ site.url }}{{ post.url }}
+{%- endfor -%}
