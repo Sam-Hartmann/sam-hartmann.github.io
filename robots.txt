@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sam-hartmann.github.io/sitemap.xml
+Sitemap: https://www.new-parenting-advice.com/sitemap.xml

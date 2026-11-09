@@ -31,7 +31,7 @@ WEBSITE_DIR = Path(__file__).parent
 CONFIG_FILE = WEBSITE_DIR / "_config.yml"
 DEV_CONFIG_FILE = WEBSITE_DIR / "_config_dev.yml"
 POSTS_DIR = WEBSITE_DIR / "_posts"
-SITE_BASE_URL = "https://sam-hartmann.github.io"
+SITE_BASE_URL = "https://www.new-parenting-advice.com"
 
 SECTION_LAYOUT_TEMPLATE = """\
 ---
@@ -201,19 +201,19 @@ def _build_snack_detail_page(snack: dict, slug: str) -> str:
                         "@type": "ListItem",
                         "position": 1,
                         "name": "Home",
-                        "item": "https://sam-hartmann.github.io/",
+                        "item": "https://www.new-parenting-advice.com/",
                     },
                     {
                         "@type": "ListItem",
                         "position": 2,
                         "name": "Snack Database",
-                        "item": "https://sam-hartmann.github.io/snacks/",
+                        "item": "https://www.new-parenting-advice.com/snacks/",
                     },
                     {
                         "@type": "ListItem",
                         "position": 3,
                         "name": name,
-                        "item": f"https://sam-hartmann.github.io/snacks/{slug}/",
+                        "item": f"https://www.new-parenting-advice.com/snacks/{slug}/",
                     },
                 ],
             },
@@ -221,7 +221,7 @@ def _build_snack_detail_page(snack: dict, slug: str) -> str:
                 "@type": "Product",
                 "name": name,
                 "brand": brand,
-                "url": f"https://sam-hartmann.github.io/snacks/{slug}/",
+                "url": f"https://www.new-parenting-advice.com/snacks/{slug}/",
                 "category": "Baby and toddler snack",
                 "description": ingredients,
             },
